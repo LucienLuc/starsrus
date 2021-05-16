@@ -1,14 +1,15 @@
-package net.source;
+package source;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 public class Main {
      /**
-     * Connect to a sample database
+     * Connect to our database
      */
-    public static String url = "jdbc:sqlite:/Users/lucienluc/Downloads/Spring 2021/CMPSC174a/Project/db/chinook.db";
+    public static String url = "jdbc:sqlite:/Users/lucienluc/Downloads/Spring 2021/CMPSC174a/starsrus/db/starsrus.db";
 
     public static void connect() {
         Connection conn = null;
@@ -50,11 +51,17 @@ public class Main {
         }
     }
 
+    public static void test() {
+        Customer c = new Customer();
+        c.register();
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         connect();
         createTable();
+        test();
     }
 }
