@@ -56,11 +56,14 @@ public class Main {
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + ");";
 
+        // how to store daily closing prices?
+        // seperate table with dily clsoing prices
+        // (aid, date, closingprice)
         String actorTable = "CREATE TABLE IF NOT EXISTS Actors (\n"
         + "	aid char(3) NOT NULL,\n"
         + " currprice real NOT NULL, \n"
         + " name varchar(20) NOT NULL, \n"
-        + " dob date NOT NULL \n"
+        + " dob DATE NOT NULL \n"
         + ");";
 
         String contractsTable = "CREATE TABLE IF NOT EXISTS Contracts (\n"
@@ -104,8 +107,7 @@ public class Main {
                 String data = s.nextLine();
                 String[] p = data.split(",");
 
-                Customer c = new Customer();
-                c.register(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], Integer.parseInt(p[9]));
+                Customer c = new Customer(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], Integer.parseInt(p[9]));
             }
             s.close();
         } catch (FileNotFoundException e) {
@@ -113,7 +115,23 @@ public class Main {
             e.printStackTrace();
         }
 
-        
+        // Actor and stock info
+        try {
+            // path from /connect folder becuase this is where program is executed
+            File f = new File("./sampledata/actors.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String data = s.nextLine();
+                String[] p = data.split(",");
+                String date = Helper.convertDate(p[3]);
+                Actor a = new Actor(p[0], Double.parseDouble(p[1]), p[2], date);
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
     }
 
     /**

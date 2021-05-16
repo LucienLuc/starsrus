@@ -1,0 +1,3 @@
+SKB,40.00,Kim Basinger,8 December 1958
+SMD,71.00,Michael Douglas,25 September 1944
+STC,32.50,Tom Cruise,3 July 1962

@@ -7,7 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Customer {
-    public void register(String name, String username, String password, String address, 
+
+    public Customer(String name, String username, String password, String address, 
     String state, String phone, String email,String taxid, String ssn, double deposit){ 
 
         String customerSql = "INSERT INTO Customers VALUES(\n"
