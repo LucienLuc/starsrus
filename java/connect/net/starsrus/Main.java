@@ -60,17 +60,17 @@ public class Main {
         // seperate table with dily clsoing prices
         // (aid, date, closingprice)
         String actorTable = "CREATE TABLE IF NOT EXISTS Actors (\n"
-        + "	aid char(3) NOT NULL,\n"
+        + "	aid char(3) PRIMARY KEY NOT NULL,\n"
         + " currprice real NOT NULL, \n"
         + " name varchar(20) NOT NULL, \n"
         + " dob DATE NOT NULL \n"
         + ");";
 
         String contractsTable = "CREATE TABLE IF NOT EXISTS Contracts (\n"
-        + "	aid char(3) PRIMARY KEY NOT NULL,\n"
+        + "	aid char(3) NOT NULL,\n"
         + " title varchar(20) NOT NULL, \n"
         + " role varchar(10) NOT NULL, \n"
-        + " year char(4) NOT NULL, \n"
+        + " year YEAR NOT NULL, \n"
         + " value real NOT NULL, \n"
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
@@ -131,7 +131,22 @@ public class Main {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-
+        
+        //Contracts info
+        try {
+            // path from /connect folder becuase this is where program is executed
+            File f = new File("./sampledata/contracts.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String data = s.nextLine();
+                String[] p = data.split(",");
+                Actor.createContract(p[0], p[1], p[2], Integer.parseInt(p[3]), Double.parseDouble(p[4]));
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     /**

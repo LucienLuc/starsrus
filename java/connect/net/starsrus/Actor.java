@@ -23,8 +23,31 @@ public class Actor {
         System.out.println("Created Actor Stock for " + name);
 
         conn.close();
-    } catch (SQLException e) {
-        System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
+
+    public static void createContract(String aid, String title, String role, int year, double value) {
+        String contractSql = "INSERT INTO Contracts VALUES(\n"
+        + "	?, ?, ?, ?, ? \n"
+        + ");"; 
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+        PreparedStatement pstmt = conn.prepareStatement(contractSql)) {
+        
+        pstmt.setString(1, aid);
+        pstmt.setString(2, title);
+        pstmt.setString(3, role);
+        pstmt.setInt(4, year);
+        pstmt.setDouble(5, value);
+        pstmt.executeUpdate();
+
+        System.out.println("Created Contract for " + aid);
+
+        conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
