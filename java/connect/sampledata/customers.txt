@@ -1,0 +1,11 @@
+Alfred Hitchcock,alfred,hi,6667 El Colegio #40 SB,CA,8052574499,alfred@hotmail.com,1022,606767900,10000
+Billy Clinton,billy,cl,5777 Hollister SB,CA,8055629999,billy@yahoo.com,3045,606767903,100000
+Cindy Laugher,cindy,la,7000 Hollister SB,CA,8056930011,cindy@hotmail.com,2034,606707900,50000
+David Copperfill,david,co,1357 State St SB,CA,8058240011,david@yahoo.com,4093,506787900,45000
+Elizabeth Sailor,sailor,sa,4321 State St SB,CA,8051234567,sailor@hotmail.com,1234,436767900,200000
+George Brush,brush,br,5346 Foothill Av,CA,8051357999,george@hotmail.com,8956,632457900,5000
+Ivan Stock,ivan,st,1235 Johnson Dr,NJ,8053223243,ivan@yahoo.com,2341,609237900,2000
+Joe Pepsi,joe,pe,3210 State St,CA,8055668123,pepsi@pepsi.com,0456,646763430,10000
+Magic Jordon,magic,jo,3852 Court Rd,NJ,8054535539,jordon@jordon.org,3455,646768843,130200
+Olive Stoner,olive,st,6689 El Colegio #151,CA,8052574499,olive@yahoo.com,1123,645347900,35000
+Frank Olson,frank,ol,6910 Whittier Dr,CA,8053456789,frank@gmail.com,3306,345232134,30500

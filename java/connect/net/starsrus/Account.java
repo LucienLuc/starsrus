@@ -1,5 +1,5 @@
 package starsrus;
 
-public class Account {
+public abstract class Account {
     
 }
