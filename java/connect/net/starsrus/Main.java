@@ -107,7 +107,8 @@ public class Main {
                 String data = s.nextLine();
                 String[] p = data.split(",");
 
-                Customer c = new Customer(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], Integer.parseInt(p[9]));
+                Customer c = new Customer();
+                c.register(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], Integer.parseInt(p[9]));
             }
             s.close();
         } catch (FileNotFoundException e) {
