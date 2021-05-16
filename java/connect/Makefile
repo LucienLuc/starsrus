@@ -1,8 +1,8 @@
 run: 
-	java -cp ".:sqlite-jdbc-3.34.0.jar":classes source.Main
+	java -cp ".:sqlite-jdbc-3.34.0.jar":classes starsrus.Main
 
 classes:
-	javac -d classes net/source/Main.java net/source/Customer.java net/source/Account.java net/source/MarketAccount.java net/source/StockAccount.java
+	javac -d classes net/starsrus/Main.java net/starsrus/Customer.java net/starsrus/Account.java net/starsrus/MarketAccount.java net/starsrus/StockAccount.java
 
 clean:
 	rm -r ./classes/*

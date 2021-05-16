@@ -1,4 +1,4 @@
-package source;
+package starsrus;
 
 public class StockAccount {
     
