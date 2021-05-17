@@ -9,6 +9,14 @@ import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner;
 
+// User interface
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField; 
+
 public class Main {
      /**
      * Connect to our database
@@ -45,13 +53,14 @@ public class Main {
         + "	state char(2) NOT NULL,\n"
         + " phone char(10) NOT NULL, \n"
         + " email varchar(20) NOT NULL, \n"
-        + " taxid varchar(9) PRIMARY KEY, \n"
+        + " taxid int PRIMARY KEY, \n"
         + " ssn char(9) NOT NULL \n"
         + ");";
 
         // do we need accountid?
+        //
         String marketAccountTable = "CREATE TABLE IF NOT EXISTS MarketAccounts (\n"
-        + "	taxid varchar(9) PRIMARY KEY NOT NULL,\n"
+        + "	taxid int PRIMARY KEY NOT NULL,\n"
         + " balance real NOT NULL, \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + ");";
@@ -108,7 +117,7 @@ public class Main {
                 String[] p = data.split(",");
 
                 Customer c = new Customer();
-                c.register(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], Integer.parseInt(p[9]));
+                c.register(p[0], p[1], p[2], p[3], p[4], p[5], p[6], Integer.parseInt(p[7]), p[8], Integer.parseInt(p[9]));
             }
             s.close();
         } catch (FileNotFoundException e) {
@@ -150,12 +159,39 @@ public class Main {
         }
     }
 
+    public static void ui() {
+        JFrame frame = new JFrame("Stars R Us");
+        // Setting the width and height of frame
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        /* Creating panel. This is same as a div tag in HTML
+         * We can create several panels and add them to specific 
+         * positions in a JFrame. Inside panels we can add text 
+         * fields, buttons and other components.
+         */
+        JPanel panel = new JPanel();    
+        // adding panel to frame
+        frame.add(panel);
+        /* calling user defined method for adding components
+         * to the panel.
+         */
+        // placeComponents(panel);
+
+        // Setting the frame visibility to true
+        frame.setVisible(true);
+    }
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         connect();
         setup();
-        insertSampleData();
+        // insertSampleData();
+        // Login l = new Login();
+        // TraderInterface ti = new TraderInterface(1234, "alfred");
+        UserInterface ui = new UserInterface();
+        // LogReg lg = new LogReg();
     }
 }

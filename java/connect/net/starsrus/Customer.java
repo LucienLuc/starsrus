@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class Customer {
 
     public void register(String name, String username, String password, String address, 
-    String state, String phone, String email,String taxid, String ssn, double deposit){ 
+    String state, String phone, String email,int taxid, String ssn, double deposit){ 
 
         String customerSql = "INSERT INTO Customers VALUES(\n"
         + "	?, ?, ?, ?, ?, ?, ?, ?, ? \n"
@@ -30,7 +30,7 @@ public class Customer {
             pstmt.setString(5, state);
             pstmt.setString(6, phone);
             pstmt.setString(7, email);
-            pstmt.setString(8, taxid);
+            pstmt.setInt(8, taxid);
             pstmt.setString(9, ssn);
             pstmt.executeUpdate();
 
@@ -44,7 +44,7 @@ public class Customer {
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(marketSql)) {
             
-            pstmt.setString(1, taxid);
+            pstmt.setInt(1, 1);
             pstmt.setDouble(2, deposit);
             pstmt.executeUpdate();
 
