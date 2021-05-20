@@ -15,7 +15,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField; 
+import javax.swing.JTextField;
+
+import starsrus.ui.UserInterface; 
 
 public class Main {
      /**
@@ -23,6 +25,7 @@ public class Main {
      */
     public static String url = "jdbc:sqlite:/Users/lucienluc/Downloads/Spring 2021/CMPSC174a/starsrus/db/starsrus.db";
 
+    // For testing connection
     public static void connect() {
         Connection conn = null;
         try {
@@ -159,39 +162,16 @@ public class Main {
         }
     }
 
-    public static void ui() {
-        JFrame frame = new JFrame("Stars R Us");
-        // Setting the width and height of frame
-        frame.setSize(500, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        /* Creating panel. This is same as a div tag in HTML
-         * We can create several panels and add them to specific 
-         * positions in a JFrame. Inside panels we can add text 
-         * fields, buttons and other components.
-         */
-        JPanel panel = new JPanel();    
-        // adding panel to frame
-        frame.add(panel);
-        /* calling user defined method for adding components
-         * to the panel.
-         */
-        // placeComponents(panel);
-
-        // Setting the frame visibility to true
-        frame.setVisible(true);
-    }
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        connect();
-        setup();
-        // insertSampleData();
-        // Login l = new Login();
-        // TraderInterface ti = new TraderInterface(1234, "alfred");
-        UserInterface ui = new UserInterface();
-        // LogReg lg = new LogReg();
+        if (args[0].equals("run")) {
+            UserInterface ui = new UserInterface();
+        }
+        else if (args[0].equals("setup")) {
+            setup();
+            insertSampleData();
+        }
     }
 }

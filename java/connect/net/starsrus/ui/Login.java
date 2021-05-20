@@ -1,8 +1,10 @@
-package starsrus;
+package starsrus.ui;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import starsrus.Customer;
 
 public class Login extends JFrame{
     public JPanel cards;

@@ -44,7 +44,7 @@ public class Customer {
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(marketSql)) {
             
-            pstmt.setInt(1, 1);
+            pstmt.setInt(1, taxid);
             pstmt.setDouble(2, deposit);
             pstmt.executeUpdate();
 

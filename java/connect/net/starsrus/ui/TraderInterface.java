@@ -1,4 +1,4 @@
-package starsrus;
+package starsrus.ui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,10 +8,10 @@ public class TraderInterface extends JFrame{
     public JPanel cards;
 
     public JPanel panel;
-    public JLabel user_label, balance_label, message;
+    public JLabel user_label, balance_label;
     public JTextField deposit_value, withdraw_value;
     public JPasswordField password_text;
-    public JButton deposit, withdraw, trans_history;
+    public JButton dep_with, buy_sell, stock_info, movie_info, trans_history;
     public int taxid;
     public String user;
     public double balance;
@@ -32,31 +32,23 @@ public class TraderInterface extends JFrame{
         balance_label = new JLabel();
         balance_label.setText("Balance: $" + String.valueOf(balance));
 
-        //Transaction history
+        //Buttons for actions
         trans_history = new JButton("View my Transaction History");
+        dep_with = new JButton("Deposit/Withdraw");
+        buy_sell = new JButton("Buy/Sell Stocks");
+        stock_info = new JButton("Get Stock Info");
+        movie_info = new JButton("Get Movie Info");
 
-        // Deposit
-        deposit_value = new JTextField();
-        deposit = new JButton("Deposit");
-        
-        // Withdraw
-        withdraw_value = new JTextField();
-        withdraw = new JButton("Withdraw");
+        // Action listeners
 
-        panel = new JPanel(new GridLayout(3, 3));
+        panel = new JPanel(new GridLayout(2, 4));
 
         panel.add(user_label);
         panel.add(balance_label);
         panel.add(trans_history);
-        panel.add(deposit_value);
-        panel.add(withdraw_value);
-        // panel.add(deposit_value);
-
-        message = new JLabel("hello");
-        panel.add(message);
-        panel.add(deposit);
-        panel.add(withdraw);
-        
-        setVisible(true);
+        panel.add(dep_with);
+        panel.add(buy_sell);
+        panel.add(stock_info);
+        panel.add(movie_info);
     }
 }

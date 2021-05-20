@@ -1,4 +1,4 @@
-package starsrus;
+package starsrus.ui;
 
 import java.awt.*;
 import java.awt.event.*;

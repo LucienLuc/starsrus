@@ -1,4 +1,4 @@
-package starsrus;
+package starsrus.ui;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -7,7 +7,7 @@ import javax.swing.*;
 public class UserInterface extends JFrame{
     public JPanel cards;
 
-    UserInterface() {
+    public UserInterface() {
         cards = new JPanel(new CardLayout());
 
         // Choose Login or Register Page
