@@ -9,14 +9,6 @@ import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner;
 
-// User interface
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
 import starsrus.ui.UserInterface; 
 
 public class Main {
@@ -112,7 +104,7 @@ public class Main {
 
         //Customer info
         try {
-            // path from /connect folder becuase this is where program is executed
+            // path from /connect folder because this is where program is executed
             File f = new File("./sampledata/customers.txt");
             Scanner s = new Scanner(f);
             while (s.hasNextLine()) {
