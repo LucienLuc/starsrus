@@ -7,9 +7,11 @@ SQLPATH = .:sqlite-jdbc-3.34.0.jar
 
 CLASSES = \
 	net/starsrus/Main.java \
+	net/starsrus/Sys.java \
 	net/starsrus/Manager.java \
 	net/starsrus/Customer.java \
 	net/starsrus/Actor.java \
+	net/starsrus/Transaction.java \
 	net/starsrus/Helper.java \
 	net/starsrus/ui/UserInterface.java \
 	net/starsrus/ui/Login.java \

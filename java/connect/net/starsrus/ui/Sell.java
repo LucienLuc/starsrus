@@ -60,7 +60,8 @@ public class Sell {
                     " from bought price of $" + new DecimalFormat("#.00").format(original_price));
                 }
                 else {
-                    message.setText("Error: Invalid stock or user does not own enough stock."); // error message for dont own enough?
+                    message.setText("Error: You do not own at least " + Integer.toString(quantity) + " shares of " + aid + 
+                    " at specified buy price of $" + new DecimalFormat("#.00").format(original_price)); 
                 }
 
                 // clear fields

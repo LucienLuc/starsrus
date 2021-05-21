@@ -15,9 +15,9 @@ public class StockAccount {
     }
 
     // FOR SAMPLE DATA ONLY
-    void giveStock(int shares, String aid) {
+    void giveStock(int shares, String aid, double buyprice) {
         String stocksql = "INSERT INTO Stocks VALUES(\n"
-        + "	?, ?, ? \n"
+        + "	?, ?, ?, ? \n"
         + ");"; 
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(stocksql)) {
@@ -25,14 +25,24 @@ public class StockAccount {
             pstmt.setInt(1, taxid);
             pstmt.setInt(2, shares);
             pstmt.setString(3, aid);
+            pstmt.setDouble(4, buyprice);
 
             pstmt.executeUpdate();
-            System.out.println("Gave " + Integer.toString(shares) + " shares of " + aid + " for " + Integer.toString(taxid));
+            System.out.println("Gave " + Integer.toString(shares) + " shares of " + aid + " for " + Integer.toString(taxid) + 
+            " at $" + Double.toString(buyprice));
 
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        // Store into transactions table
+        // Decided to simply make all these stocks buy transactions
+        Sys system = new Sys();
+        String today = system.getToday();
+        Transaction t = new Transaction();
+        double total = (shares * buyprice + 20) * -1;
+        t.storeTransaction(today, taxid, 'b', shares, aid, buyprice, total);
     }
 
     // buys quantity number of stock aid 
@@ -59,10 +69,10 @@ public class StockAccount {
         }
         
         // update stockaccount table
-        // see if user already has bought stocks of this aid
+        // see if user already has bought stocks of this aid at this price
         String stockcountsql = "SELECT COUNT(*) as count \n"
         + "FROM Stocks \n"
-        + "WHERE taxid = ? AND aid = ?";
+        + "WHERE taxid = ? AND aid = ? AND buyprice = ?";
 
         boolean found = false;
         try (Connection conn = DriverManager.getConnection(Main.url);
@@ -70,6 +80,7 @@ public class StockAccount {
         
             pstmt.setInt(1,taxid);
             pstmt.setString(2,aid);
+            pstmt.setDouble(3, price);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int res = rs.getInt("count");
@@ -86,13 +97,14 @@ public class StockAccount {
         // update existing tuple if found
         if (found) {
             String stockupdatesql = "UPDATE Stocks SET shares = shares + ? \n "
-            + "WHERE taxid = ? AND aid = ?";
+            + "WHERE taxid = ? AND aid = ? AND buyprice = ?";
             try (Connection conn = DriverManager.getConnection(Main.url);
                 PreparedStatement pstmt = conn.prepareStatement(stockupdatesql)) {
                 
                 pstmt.setInt(1, quantity);
                 pstmt.setInt(2, taxid);
                 pstmt.setString(3, aid);
+                pstmt.setDouble(4, price);
 
                 pstmt.executeUpdate();
                 System.out.println("Bought (Update) " + Integer.toString(quantity) + " shares of " + aid + " for " + Integer.toString(taxid));
@@ -106,7 +118,7 @@ public class StockAccount {
         // otherwise create new tuple
         else {
             String stockinsertsql = "INSERT INTO Stocks VALUES(\n"
-            + "	?, ?, ? \n"
+            + "	?, ?, ?, ? \n"
             + ");"; 
             try (Connection conn = DriverManager.getConnection(Main.url);
                 PreparedStatement pstmt = conn.prepareStatement(stockinsertsql)) {
@@ -114,6 +126,7 @@ public class StockAccount {
                 pstmt.setInt(1, taxid);
                 pstmt.setInt(2, quantity);
                 pstmt.setString(3, aid);
+                pstmt.setDouble(4, price);
 
                 pstmt.executeUpdate();
                 System.out.println("Bought " + Integer.toString(quantity) + " shares of " + aid + " for " + Integer.toString(taxid));
@@ -129,7 +142,12 @@ public class StockAccount {
         ma.withdraw(transactionCost);
 
         // store transaction
-        
+        Sys system = new Sys();
+        String today = system.getToday();
+        Transaction t = new Transaction();
+        double format = transactionCost * -1;
+        t.storeTransaction(today, taxid, 'b', quantity, aid, price, format);
+
         return true;
         
     }
@@ -140,7 +158,7 @@ public class StockAccount {
         // check if user owns at least this amount of stock
         String stockcountsql = "SELECT shares \n"
         + "FROM Stocks \n"
-        + "WHERE taxid = ? AND aid = ?";
+        + "WHERE taxid = ? AND aid = ? AND buyprice = ?";
 
         int count = 0;
         try (Connection conn = DriverManager.getConnection(Main.url);
@@ -148,6 +166,7 @@ public class StockAccount {
         
             pstmt.setInt(1,taxid);
             pstmt.setString(2,aid);
+            pstmt.setDouble(3, buyPrice);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 count = rs.getInt("shares");
@@ -169,12 +188,13 @@ public class StockAccount {
 
         // delete tuple from Stock table
         if (count == quantity) {
-            String stockdelete = "DELETE FROM Stocks WHERE taxid = ? AND aid = ?";
+            String stockdelete = "DELETE FROM Stocks WHERE taxid = ? AND aid = ? AND buyprice = ?";
             try (Connection conn = DriverManager.getConnection(Main.url);
                 PreparedStatement pstmt = conn.prepareStatement(stockdelete)) {
             
                 pstmt.setInt(1,taxid);
                 pstmt.setString(2,aid);
+                pstmt.setDouble(3, buyPrice);
                 pstmt.executeUpdate();
                 
                 conn.close();
@@ -187,13 +207,14 @@ public class StockAccount {
         //update and subtract
         else {
             String stockupdate = "UPDATE Stocks SET shares = shares - ? \n "
-            + "WHERE taxid = ? AND aid = ?";
+            + "WHERE taxid = ? AND aid = ? AND buyprice = ?";
             try (Connection conn = DriverManager.getConnection(Main.url);
                 PreparedStatement pstmt = conn.prepareStatement(stockupdate)) {
                 
                 pstmt.setInt(1, quantity);
                 pstmt.setInt(2, taxid);
                 pstmt.setString(3, aid);
+                pstmt.setDouble(4, buyPrice);
 
                 pstmt.executeUpdate();
                 System.out.println("User " + Integer.toString(taxid) + " sold (Update) " + Integer.toString(quantity) + " shares of " + aid);
@@ -210,6 +231,10 @@ public class StockAccount {
         ma.deposit(profit);
 
         //store transaction
+        Sys system = new Sys();
+        String today = system.getToday();
+        Transaction t = new Transaction();
+        t.storeTransaction(today, taxid, 's', quantity, aid, currPrice, profit);
 
         return true;
     }

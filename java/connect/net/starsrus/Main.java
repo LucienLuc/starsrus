@@ -142,7 +142,8 @@ public class Main {
         + "	taxid int NOT NULL,\n"
         + " shares int NOT NULL, \n"
         + " aid char(3) NOT NULL, \n"
-        + " PRIMARY KEY (taxid, aid) \n"
+        + " buyprice real NOT NULL, \n"
+        + " PRIMARY KEY (taxid, aid, buyprice) \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
@@ -172,6 +173,8 @@ public class Main {
         + " type char NOT NULL, \n" // b/s 
         + " shares int NOT NULL, \n"
         + " aid char(3) NOT NULL, \n"
+        + " price real NOT NULL, \n"
+        + " total real NOT NULL, \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
@@ -258,7 +261,7 @@ public class Main {
                 String[] p = data.split(",");
 
                 StockAccount sa = new StockAccount(Integer.parseInt(p[0]));
-                sa.giveStock(Integer.parseInt(p[1]),p[2]);
+                sa.giveStock(Integer.parseInt(p[1]),p[2], Double.parseDouble(p[3]));
             }
             s.close();
         } catch (FileNotFoundException e) {
