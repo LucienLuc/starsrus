@@ -33,21 +33,34 @@ public class StockAccount {
 
         // update stockaccount table
         // see if user already has bought stocks of this aid
-        String stockcountsql = "COUNT(*)\n"
+        String stockcountsql = "COUNT(*) as count\n"
         + "FROM Stocks \n"
         + "WHERE taxid = ? AND aid = ?";
-
+        boolean found = false;
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(stockcountsql)) {
         
-            pstmt.setDouble(1,quantity);
-            pstmt.setInt(2,taxid);
-            pstmt.executeUpdate();
-
+            pstmt.setInt(1,taxid);
+            pstmt.setString(2,aid);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int res = rs.getInt("count");
+                if (res == 1) {
+                    found = true;
+                }
+            }
             conn.close();
-            System.out.println("Deposited " + Double.toString(quantity) + " into " + Integer.toString(taxid));
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+
+        // update existing tuple if found
+        if (found) {
+
+        }
+        // otherwise create new tuple
+        else {
+
         }
 
         // withdraw money from market account
