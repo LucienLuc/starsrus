@@ -72,7 +72,7 @@ public class Customer {
             
             pstmt.setString(1,username);
             pstmt.setString(2,password);
-            ResultSet rs  = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 taxid = rs.getInt("taxid");

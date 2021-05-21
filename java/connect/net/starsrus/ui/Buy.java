@@ -49,7 +49,7 @@ public class Buy {
                     message.setText("Bought " + Integer.toString(quantity) + " shares of " +  aid);
                 }
                 else {
-
+                    message.setText("Bought " + Integer.toString(quantity) + " shares of " +  aid);
                 }
 
                 // update balance

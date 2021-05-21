@@ -60,6 +60,14 @@ public class Main {
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + ");";
 
+        String stockAccountTable = "CREATE TABLE IF NOT EXISTS Stocks (\n"
+        + "	taxid int NOT NULL,\n"
+        + " shares int NOT NULL, \n"
+        + " aid char(3) NOT NULL, \n"
+        + " FOREIGN KEY (taxid) REFERENCES Customers \n"
+        + " FOREIGN KEY (aid) REFERENCES Actors"
+        + ");";
+
         // how to store daily closing prices?
         // seperate table with daily clsoing prices
         // (aid, date, closingprice)
@@ -79,6 +87,16 @@ public class Main {
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
 
+        String transactionsTable =  "CREATE TABLE IF NOT EXISTS Transactions (\n"
+        + " dob DATE NOT NULL,\n"
+        + "	taxid int NOT NULL,\n"
+        + " type char NOT NULL, \n" // b/s 
+        + " shares int NOT NULL, \n"
+        + " aid char(3) NOT NULL, \n"
+        + " FOREIGN KEY (taxid) REFERENCES Customers \n"
+        + " FOREIGN KEY (aid) REFERENCES Actors"
+        + ");";
+
         try (Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement()) {
             stmt.execute(customerTable);
@@ -86,12 +104,18 @@ public class Main {
 
             stmt.execute(marketAccountTable);
             System.out.println("Created table MarketAccounts");
+            
+            stmt.execute(stockAccountTable);
+            System.out.println("Created table Stocks");
 
             stmt.execute(actorTable);
             System.out.println("Created table Actors");
 
             stmt.execute(contractsTable);
             System.out.println("Created table Contracts");
+
+            stmt.execute(transactionsTable);
+            System.out.println("Created table Stocks");
 
             conn.close();
         } catch (SQLException e) {

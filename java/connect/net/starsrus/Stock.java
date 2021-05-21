@@ -9,26 +9,28 @@ import java.sql.Statement;
 
 public class Stock {
 
-
-
     double getPrice(String aid) {
-        // String depositsql = "SELECT currprice \n"
-        // + "FROM Actors"
-        // + "WHERE taxid = ?";
+        String depositsql = "SELECT currprice \n"
+        + "FROM Actors"
+        + "WHERE aid = ?";
 
-        // try (Connection conn = DriverManager.getConnection(Main.url);
-        //     PreparedStatement pstmt = conn.prepareStatement(depositsql)) {
+        double price = -1;
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(depositsql)) {
         
-        //     pstmt.setDouble(1,amount);
-        //     pstmt.setInt(2,taxid);
-        //     pstmt.executeUpdate();
+            pstmt.setString(1,aid);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                price = rs.getDouble("currPrice");
+            }
 
-        //     conn.close();
-        //     System.out.println("Deposited " + Double.toString(amount) + " into " + Integer.toString(taxid));
-        // } catch (SQLException e) {
-        //     System.out.println(e.getMessage());
-        // }
-        return 0;
+            conn.close();
+            System.out.println("Got price of " + Double.toString(price) + " for " + aid);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return price;
     }
 
     String getName(String aid) {
