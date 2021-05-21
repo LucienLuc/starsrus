@@ -15,8 +15,7 @@ public class Main {
      /**
      * Connect to our database
      */
-    public static String url = "jdbc:sqlite:/Users/lucienluc/Downloads/Spring 2021/CMPSC174a/starsrus/db/starsrus.db";
-
+    public static String url = "jdbc:sqlite:\\Users\\Daniel\\Documents\\GitHub\\starsrus\\db\\starsrus.db";
     // For testing connection
     public static void connect() {
         Connection conn = null;
