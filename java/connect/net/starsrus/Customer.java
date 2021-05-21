@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class Customer {
 
-    public void register(String name, String username, String password, String address, 
+    public boolean register(String name, String username, String password, String address, 
     String state, String phone, String email,int taxid, String ssn, double deposit){ 
 
         String customerSql = "INSERT INTO Customers VALUES(\n"
@@ -39,6 +39,7 @@ public class Customer {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+			return false;
         }
 
         try (Connection conn = DriverManager.getConnection(Main.url);
@@ -53,8 +54,9 @@ public class Customer {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+			return false;
         }
-        return;
+        return true;
     }
     // attempt a login
     // returns -1 if login fails
