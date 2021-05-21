@@ -61,7 +61,7 @@ public class Main {
         + ");";
 
         // how to store daily closing prices?
-        // seperate table with dily clsoing prices
+        // seperate table with daily clsoing prices
         // (aid, date, closingprice)
         String actorTable = "CREATE TABLE IF NOT EXISTS Actors (\n"
         + "	aid char(3) PRIMARY KEY NOT NULL,\n"
