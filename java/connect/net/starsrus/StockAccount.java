@@ -20,6 +20,9 @@ public class StockAccount {
     public boolean buy(String aid, int quantity) {
         // get current balance
         MarketAccount ma = new MarketAccount(taxid);
+        double balance = ma.getBalance();
+        
+        // get stock current price
         
         return false;
     }

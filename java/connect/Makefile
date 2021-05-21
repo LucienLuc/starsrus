@@ -17,6 +17,7 @@ CLASSES = \
 	net/starsrus/ui/TraderInterface.java \
 	net/starsrus/ui/DepWith.java \
 	net/starsrus/ui/Buy.java \
+	net/starsrus/Stock.java \
 	net/starsrus/MarketAccount.java \
 	net/starsrus/StockAccount.java
 
