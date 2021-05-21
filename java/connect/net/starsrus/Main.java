@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
@@ -40,7 +42,71 @@ public class Main {
         }
     }
 
+    // Sets system date
+    // date must be in YYYY-MM-DD format
+    public static void setToday(String date) {
+        // Count tuples
+        String systemcountsql = "SELECT COUNT(*) as count \n"
+        + "FROM System \n";
+
+        boolean found = false;
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(systemcountsql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int res = rs.getInt("count");
+                if (res == 1) {
+                    found = true;
+                }
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //update existing tuple
+        if (found) {
+            String systemupdatesql = "UPDATE Stocks SET today = ? \n ";
+
+            try (Connection conn = DriverManager.getConnection(Main.url);
+                PreparedStatement pstmt = conn.prepareStatement(systemupdatesql)) {
+                
+                pstmt.setString(1, date);
+
+                pstmt.executeUpdate();
+
+                System.out.println("Update today to " + date);
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        // first insert, so insert tuple
+        else {
+            String sql = "INSERT INTO System VALUES(?)";
+
+            try (Connection conn = DriverManager.getConnection(Main.url);
+                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, date);
+                pstmt.executeUpdate();
+                
+                System.out.println("Set today to " + date);
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public static void setup() {
+
+        // Stores system date
+        // make sure there is only one tuple
+        String systemTable = "CREATE TABLE IF NOT EXISTS System (\n"
+        + "	today DATE NOT NULL \n"
+        + ");";
+
         String customerTable = "CREATE TABLE IF NOT EXISTS Customers (\n"
         + "	name varchar(20) NOT NULL,\n"
         + " username varchar(20) UNIQUE NOT NULL, \n"
@@ -71,7 +137,7 @@ public class Main {
         + ");";
 
         // how to store daily closing prices?
-        // seperate table with daily clsoing prices
+        // seperate table with daily closing prices
         // (aid, date, closingprice)
         String actorTable = "CREATE TABLE IF NOT EXISTS Actors (\n"
         + "	aid char(3) PRIMARY KEY NOT NULL,\n"
@@ -90,7 +156,7 @@ public class Main {
         + ");";
 
         String transactionsTable =  "CREATE TABLE IF NOT EXISTS Transactions (\n"
-        + " dob DATE NOT NULL,\n"
+        + " date DATE NOT NULL,\n"
         + "	taxid int NOT NULL,\n"
         + " type char NOT NULL, \n" // b/s 
         + " shares int NOT NULL, \n"
@@ -101,6 +167,9 @@ public class Main {
 
         try (Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement()) {
+            stmt.execute(systemTable);
+            System.out.println("Created table System");
+
             stmt.execute(customerTable);
             System.out.println("Created table Customers");
 
@@ -124,6 +193,7 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
+        setToday("2013-03-16");
     }
 
     public static void insertSampleData() {

@@ -126,7 +126,7 @@ public class StockAccount {
         ma.withdraw(transactionCost);
 
         // store transaction
-
+        
         return true;
         
     }
