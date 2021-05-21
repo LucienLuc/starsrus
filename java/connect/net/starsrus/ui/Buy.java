@@ -32,6 +32,7 @@ public class Buy {
         // Action listeners
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                message.setText("");
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "TI");
             }

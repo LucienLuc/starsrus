@@ -80,6 +80,7 @@ public class StockAccount {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
 
         // update existing tuple if found
@@ -99,6 +100,7 @@ public class StockAccount {
                 conn.close();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+                return false;
             }
         }
         // otherwise create new tuple
@@ -119,6 +121,7 @@ public class StockAccount {
                 conn.close();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+                return false;
             }
         }
 
@@ -133,7 +136,81 @@ public class StockAccount {
 
     // sells quantity number of stock aid from price buyPrice
     // returns amount of money gained from selling
-    public double sell(String aid, int quantity, double buyPrice) {
-        return 0;
+    public boolean sell(String aid, int quantity, double buyPrice) {
+        // check if user owns at least this amount of stock
+        String stockcountsql = "SELECT shares \n"
+        + "FROM Stocks \n"
+        + "WHERE taxid = ? AND aid = ?";
+
+        int count = 0;
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(stockcountsql)) {
+        
+            pstmt.setInt(1,taxid);
+            pstmt.setString(2,aid);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt("shares");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (count < quantity) {
+            return false;
+        }
+
+        //get currprice of stock
+        Stock stock = new Stock();
+        double currPrice = stock.getPrice(aid);
+
+        double profit = (currPrice - buyPrice) * quantity - 20; //$20 commision
+
+        // delete tuple from Stock table
+        if (count == quantity) {
+            String stockdelete = "DELETE FROM Stocks WHERE taxid = ? AND aid = ?";
+            try (Connection conn = DriverManager.getConnection(Main.url);
+                PreparedStatement pstmt = conn.prepareStatement(stockdelete)) {
+            
+                pstmt.setInt(1,taxid);
+                pstmt.setString(2,aid);
+                pstmt.executeUpdate();
+                
+                conn.close();
+                System.out.println("User " + Integer.toString(taxid) + " sold (deleted)" + Integer.toString(quantity) +  " shares of " + aid);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+        }
+        //update and subtract
+        else {
+            String stockupdate = "UPDATE Stocks SET shares = shares - ? \n "
+            + "WHERE taxid = ? AND aid = ?";
+            try (Connection conn = DriverManager.getConnection(Main.url);
+                PreparedStatement pstmt = conn.prepareStatement(stockupdate)) {
+                
+                pstmt.setInt(1, quantity);
+                pstmt.setInt(2, taxid);
+                pstmt.setString(3, aid);
+
+                pstmt.executeUpdate();
+                System.out.println("User " + Integer.toString(taxid) + " sold (Update) " + Integer.toString(quantity) + " shares of " + aid);
+
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return false;
+            }
+        }
+
+        //deposit money into market account
+        MarketAccount ma = new MarketAccount(taxid);
+        ma.deposit(profit);
+
+        //store transaction
+
+        return true;
     }
 }

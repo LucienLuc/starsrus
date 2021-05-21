@@ -10,7 +10,7 @@ import java.sql.Statement;
 public class Stock {
    
 
-    double getPrice(String aid) {
+    public double getPrice(String aid) {
         String depositsql = "SELECT currprice \n"
         + "FROM Actors \n"
         + "WHERE aid = ?";
