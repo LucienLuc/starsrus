@@ -4,12 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import starsrus.Customer;
+
 public class Register extends JFrame{
     public JPanel cards;
 
     public JPanel panel;
     public JLabel user_label, password_label, name_label, state_label, 
-    phone_label, email_label, address_label, taxid_label, ssn_label;
+    phone_label, email_label, address_label, taxid_label, ssn_label, message;
     public JTextField username_text, name_text, state_text, phone_text, email_text, address_text, taxid_text, ssn_text;
     public JPasswordField password_text;
     public JButton submit;
@@ -80,7 +82,7 @@ public class Register extends JFrame{
 				
                 Customer c = new Customer();
                 boolean check = c.register(name, username, password, address, state, phone, email, taxid, ssn, 1000.0);
-                if (check) {
+                if (!check) {
                     message.setText(" Error with Registration fields. ");
                 } else {
 					CardLayout cl = (CardLayout)cards.getLayout();
@@ -89,7 +91,7 @@ public class Register extends JFrame{
             }
         });
 
-        panel = new JPanel(new GridLayout(3, 4));
+        panel = new JPanel(new GridLayout(5, 2));
 
         panel.add(name_label);
         panel.add(name_text);
