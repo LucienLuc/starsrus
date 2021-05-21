@@ -49,8 +49,12 @@ public class Buy {
                     message.setText("Bought " + Integer.toString(quantity) + " shares of " +  aid);
                 }
                 else {
-                    message.setText("Error.");
+                    message.setText("Error: Invalid Stock or insufficient funds.");
                 }
+
+                // clear fields
+                stock_text.setText("");
+                quantity_text.setText("");
 
                 // update balance
                 MarketAccount ma = new MarketAccount(taxid);

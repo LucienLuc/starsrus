@@ -8,10 +8,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Stock {
+   
 
     double getPrice(String aid) {
         String depositsql = "SELECT currprice \n"
-        + "FROM Actors"
+        + "FROM Actors \n"
         + "WHERE aid = ?";
 
         double price = -1;

@@ -65,6 +65,7 @@ public class Main {
         + "	taxid int NOT NULL,\n"
         + " shares int NOT NULL, \n"
         + " aid char(3) NOT NULL, \n"
+        + " PRIMARY KEY (taxid, aid) \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
@@ -138,6 +139,24 @@ public class Main {
 
                 Customer c = new Customer();
                 c.register(p[0], p[1], p[2], p[3], p[4], p[5], p[6], Integer.parseInt(p[7]), p[8], Integer.parseInt(p[9]));
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+        // Purchased stocks info
+        try {
+            // path from /connect folder because this is where program is executed
+            File f = new File("./sampledata/stocks.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String data = s.nextLine();
+                String[] p = data.split(",");
+
+                StockAccount sa = new StockAccount(Integer.parseInt(p[0]));
+                sa.giveStock(Integer.parseInt(p[1]),p[2]);
             }
             s.close();
         } catch (FileNotFoundException e) {
