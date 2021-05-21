@@ -31,7 +31,7 @@ public class UserInterface extends JFrame{
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(cards, BorderLayout.CENTER);
-        setTitle("Welcome to Stars R Us");
+        setTitle("Stars R Us");
         setSize(750, 250);
         setVisible(true);
         

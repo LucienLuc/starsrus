@@ -15,6 +15,7 @@ CLASSES = \
 	net/starsrus/ui/Register.java \
 	net/starsrus/ui/LogReg.java \
 	net/starsrus/ui/TraderInterface.java \
+	net/starsrus/ui/DepWith.java \
 	net/starsrus/MarketAccount.java \
 	net/starsrus/StockAccount.java
 
