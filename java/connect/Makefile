@@ -7,6 +7,7 @@ SQLPATH = .:sqlite-jdbc-3.34.0.jar
 
 CLASSES = \
 	net/starsrus/Main.java \
+	net/starsrus/Manager.java \
 	net/starsrus/Customer.java \
 	net/starsrus/Actor.java \
 	net/starsrus/Helper.java \
@@ -14,9 +15,11 @@ CLASSES = \
 	net/starsrus/ui/Login.java \
 	net/starsrus/ui/Register.java \
 	net/starsrus/ui/LogReg.java \
+	net/starsrus/ui/ManLogin.java \
 	net/starsrus/ui/TraderInterface.java \
 	net/starsrus/ui/DepWith.java \
 	net/starsrus/ui/Buy.java \
+	net/starsrus/ui/ManagerInterface.java \
 	net/starsrus/Stock.java \
 	net/starsrus/MarketAccount.java \
 	net/starsrus/StockAccount.java

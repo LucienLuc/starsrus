@@ -67,7 +67,7 @@ public class Main {
 
         //update existing tuple
         if (found) {
-            String systemupdatesql = "UPDATE Stocks SET today = ? \n ";
+            String systemupdatesql = "UPDATE System SET today = ? \n ";
 
             try (Connection conn = DriverManager.getConnection(Main.url);
                 PreparedStatement pstmt = conn.prepareStatement(systemupdatesql)) {
@@ -107,6 +107,18 @@ public class Main {
         + "	today DATE NOT NULL \n"
         + ");";
 
+        String managerTable = "CREATE TABLE IF NOT EXISTS Managers (\n"
+        + "	name varchar(20) NOT NULL,\n"
+        + " username varchar(20) UNIQUE NOT NULL, \n"
+        + " password varchar(20) NOT NULL, \n"
+        + " address varchar(30) NOT NULL, \n"
+        + "	state char(2) NOT NULL,\n"
+        + " phone char(10) NOT NULL, \n"
+        + " email varchar(20) NOT NULL, \n"
+        + " taxid int PRIMARY KEY, \n"
+        + " ssn char(9) NOT NULL \n"
+        + ");";
+
         String customerTable = "CREATE TABLE IF NOT EXISTS Customers (\n"
         + "	name varchar(20) NOT NULL,\n"
         + " username varchar(20) UNIQUE NOT NULL, \n"
@@ -120,7 +132,6 @@ public class Main {
         + ");";
 
         // do we need accountid?
-        //
         String marketAccountTable = "CREATE TABLE IF NOT EXISTS MarketAccounts (\n"
         + "	taxid int PRIMARY KEY NOT NULL,\n"
         + " balance real NOT NULL, \n"
@@ -170,6 +181,9 @@ public class Main {
             stmt.execute(systemTable);
             System.out.println("Created table System");
 
+            stmt.execute(managerTable);
+            System.out.println("Created table Managers");
+
             stmt.execute(customerTable);
             System.out.println("Created table Customers");
 
@@ -197,6 +211,24 @@ public class Main {
     }
 
     public static void insertSampleData() {
+
+        // Manager info
+        try {
+            // path from /connect folder because this is where program is executed
+            File f = new File("./sampledata/managers.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String data = s.nextLine();
+                String[] p = data.split(",");
+
+                Manager m = new Manager();
+                m.register(p[0], p[1], p[2], p[3], p[4], p[5], p[6], Integer.parseInt(p[7]), p[8]);
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
 
         //Customer info
         try {

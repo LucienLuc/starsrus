@@ -16,14 +16,15 @@ public class ManagerInterface extends JFrame {
 	public JPanel gen_stmt_panel, cust_rep_panel;
 	
 	ManagerInterface(JPanel cards) {
-		this.cards = cards
+		this.cards = cards;
 		
+		/*
 		// Add Interest
 		add_interest = new JButton("Add Interest to all Market Accounts");		
 		
 		// Generate Monthly Statement
 		gen_stmt = new JButton("Generate Monthly Statement");
-		gen_stmt_panel = new SOMETHING; // need another class
+		//gen_stmt_panel = new SOMETHING; // need another class
 		cards.add(gen_stmt_panel, "GENSTMT");
 		gen_stmt.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -40,7 +41,7 @@ public class ManagerInterface extends JFrame {
 		
 		// Customer Report
 		cust_rep = new JButton("Generate Customer Report");
-		cust_rep_panel = new SOMETHING; // need another class for this
+		//cust_rep_panel = new SOMETHING; // need another class for this
 		cards.add(cust_rep_panel, "CUSTREP");
 		cust_rep.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -48,18 +49,19 @@ public class ManagerInterface extends JFrame {
                 cl.show(cards, "CUSTREP");
             }
         });
-		
+		*/
 		// Delete Transactions
 		del_trans = new JButton("Delete all Transactions");	
 		
 		
 		panel = new JPanel(new GridLayout(3,2));
-		panel.add(add_interest);
-		panel.add(gen_stmt);
-		panel.add(list_active);
-		panel.add(gen_dter);
-		panel.add(cust_rep);
+		// panel.add(add_interest);
+		// panel.add(gen_stmt);
+		// panel.add(list_active);
+		// panel.add(gen_dter);
+		// panel.add(cust_rep);
 		panel.add(del_trans);
+		
 	}
 	
 	

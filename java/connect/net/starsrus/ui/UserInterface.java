@@ -19,15 +19,18 @@ public class UserInterface extends JFrame{
         // Register Page
         JPanel register = new Register(cards).panel;
 
+        // Manager login page
+        JPanel man_login = new ManLogin(cards).panel;
+
         // Trader Interface added after successful login
 
-        // Manager Interface
-
+        // Manager Interface added after successful login
         
         // Adding cards
         cards.add(lg, "LG");
         cards.add(login, "LOGIN");
         cards.add(register, "REGISTER");
+        cards.add(man_login, "MAN_LOGIN");
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(cards, BorderLayout.CENTER);

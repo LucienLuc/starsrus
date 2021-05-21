@@ -7,21 +7,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Customer {
+public class Manager {
 
-    public boolean register(String name, String username, String password, String address, 
-    String state, String phone, String email,int taxid, String ssn, double deposit){ 
+    // only for sample data
+    public void register(String name, String username, String password, String address, 
+    String state, String phone, String email,int taxid, String ssn){ 
 
-        String customerSql = "INSERT INTO Customers VALUES(\n"
+        String managerSql = "INSERT INTO Managers VALUES(\n"
         + "	?, ?, ?, ?, ?, ?, ?, ?, ? \n"
         + ");"; 
 
-        String marketSql = "INSERT INTO MarketAccounts VALUES(\n"
-        + "	?, ? \n"
-        + ");"; 
-
         try (Connection conn = DriverManager.getConnection(Main.url);
-            PreparedStatement pstmt = conn.prepareStatement(customerSql)) {
+            PreparedStatement pstmt = conn.prepareStatement(managerSql)) {
             
             pstmt.setString(1, name);
             pstmt.setString(2, username);
@@ -39,36 +36,20 @@ public class Customer {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
         }
-
-        try (Connection conn = DriverManager.getConnection(Main.url);
-            PreparedStatement pstmt = conn.prepareStatement(marketSql)) {
-            
-            pstmt.setInt(1, taxid);
-            pstmt.setDouble(2, deposit);
-            pstmt.executeUpdate();
-
-            System.out.println("Created Market Account for " + username);
-
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        return true;
+        return;
     }
+
     // attempt a login
     // returns -1 if login fails
     // returns the user's taxid if login successful
-    public int login(String username, String password) {
+    public boolean login(String username, String password) {
 
-        String loginSql = "SELECT taxid \n"
-        + "FROM Customers "
+        String loginSql = "SELECT COUNT(*) as count \n"
+        + "FROM Managers "
         + "WHERE username = ? AND password = ?";
-        
-        int taxid = -1;
 
+        int count = 0;
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(loginSql)) {
             
@@ -77,7 +58,7 @@ public class Customer {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                taxid = rs.getInt("taxid");
+                count = rs.getInt("count");
             }
 
             conn.close();
@@ -85,13 +66,13 @@ public class Customer {
             System.out.println(e.getMessage());
         }
 
-        if (taxid != -1) {
-            System.out.println("Successfully logged in as " + username);
-            return taxid;
+        if (count == 1) {
+            System.out.println("Manager successfully logged in as " + username);
+            return true;
         }
         else {
             System.out.println("Invalid username and password combination.");
-            return -1;
+            return false;
         }
     }
 }
