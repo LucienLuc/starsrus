@@ -42,7 +42,7 @@ public class StockAccount {
         String today = system.getToday();
         Transaction t = new Transaction();
         double total = (shares * buyprice + 20) * -1;
-        t.storeTransaction(today, taxid, 'b', shares, aid, buyprice, total);
+        t.storeStockTransaction(today, taxid, 'b', shares, aid, buyprice, total);
     }
 
     // buys quantity number of stock aid 
@@ -146,7 +146,7 @@ public class StockAccount {
         String today = system.getToday();
         Transaction t = new Transaction();
         double format = transactionCost * -1;
-        t.storeTransaction(today, taxid, 'b', quantity, aid, price, format);
+        t.storeStockTransaction(today, taxid, 'b', quantity, aid, price, format);
 
         return true;
         
@@ -234,7 +234,7 @@ public class StockAccount {
         Sys system = new Sys();
         String today = system.getToday();
         Transaction t = new Transaction();
-        t.storeTransaction(today, taxid, 's', quantity, aid, currPrice, profit);
+        t.storeStockTransaction(today, taxid, 's', quantity, aid, currPrice, profit);
 
         return true;
     }

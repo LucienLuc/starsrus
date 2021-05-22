@@ -170,10 +170,10 @@ public class Main {
         String transactionsTable =  "CREATE TABLE IF NOT EXISTS Transactions (\n"
         + " date DATE NOT NULL,\n"
         + "	taxid int NOT NULL,\n"
-        + " type char NOT NULL, \n" // b/s 
-        + " shares int NOT NULL, \n"
-        + " aid char(3) NOT NULL, \n"
-        + " price real NOT NULL, \n"
+        + " type char NOT NULL, \n" // b/s/d/w
+        + " shares int, \n"
+        + " aid char(3), \n"
+        + " price real, \n"
         + " total real NOT NULL, \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + " FOREIGN KEY (aid) REFERENCES Actors"

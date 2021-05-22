@@ -53,6 +53,12 @@ public class MarketAccount {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        Sys s = new Sys();
+        String today = s.getToday();
+        // Store transaction
+        Transaction t = new Transaction();
+        t.storeDepositTransaction(today, taxid, amount);
     }
 
     public boolean withdraw(double amount) {
@@ -78,6 +84,12 @@ public class MarketAccount {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        Sys s = new Sys();
+        String today = s.getToday();
+        // Store transaction
+        Transaction t = new Transaction();
+        t.storeWithdrawTransaction(today, taxid, -1*amount);
         return true;
     }
 }

@@ -12,7 +12,12 @@ CLASSES = \
 	net/starsrus/Customer.java \
 	net/starsrus/Actor.java \
 	net/starsrus/Transaction.java \
+	net/starsrus/Stock.java \
+	net/starsrus/MarketAccount.java \
+	net/starsrus/StockAccount.java \
+	net/starsrus/Contracts.java \
 	net/starsrus/Helper.java \
+	\
 	net/starsrus/ui/UserInterface.java \
 	net/starsrus/ui/Login.java \
 	net/starsrus/ui/Register.java \
@@ -20,12 +25,12 @@ CLASSES = \
 	net/starsrus/ui/ManLogin.java \
 	net/starsrus/ui/TraderInterface.java \
 	net/starsrus/ui/DepWith.java \
+	net/starsrus/ui/TransHistory.java \
 	net/starsrus/ui/Buy.java \
 	net/starsrus/ui/Sell.java \
+	net/starsrus/ui/StockInfo.java \
+	\
 	net/starsrus/ui/ManagerInterface.java \
-	net/starsrus/Stock.java \
-	net/starsrus/MarketAccount.java \
-	net/starsrus/StockAccount.java
 
 .PHONY: classes
 

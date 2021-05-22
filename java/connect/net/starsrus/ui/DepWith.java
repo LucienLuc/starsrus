@@ -63,7 +63,8 @@ public class DepWith extends JFrame{
                 else {
                     message.setText("Error: Insufficient funds.");
                 }
-
+                
+                amount_text.setText("");
                 //update balance display
                 double balance = ma.getBalance();
                 ti.balance_label.setText("Balance: $" + new DecimalFormat("#.00").format(balance));

@@ -60,3 +60,14 @@ public class Helper {
         return res;
     }
 }
+
+// One tuple of transaction
+// for getting transaction history
+class TransactionItem {
+    String date;
+    char type;
+    int shares;
+    String aid;
+    double price;
+    double total;
+}

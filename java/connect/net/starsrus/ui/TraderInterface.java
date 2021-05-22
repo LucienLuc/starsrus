@@ -14,7 +14,7 @@ public class TraderInterface extends JFrame{
     public JTextField deposit_value, withdraw_value;
     public JPasswordField password_text;
     public JButton dep_with, buy, sell, stock_info, movie_info, trans_history, debug;
-    public JPanel dep_with_panel, buy_panel, sell_panel;
+    public JPanel dep_with_panel, buy_panel, sell_panel, trans_history_panel, stock_info_panel;
     public int taxid;
     public String user;
 
@@ -48,29 +48,51 @@ public class TraderInterface extends JFrame{
         dep_with_panel = new DepWith(cards, taxid, this).panel;
         buy_panel = new Buy(cards, taxid, this).panel;
         sell_panel = new Sell(cards, taxid, this).panel;
+        trans_history_panel = new TransHistory(cards, taxid).panel;
+        stock_info_panel = new StockInfo(cards).panel;
 
         // Add to cards
         cards.add(dep_with_panel, "DEPWITH");
         cards.add(buy_panel, "BUY");
         cards.add(sell_panel, "SELL");
+        cards.add(trans_history_panel, "TRANSHIST");
+        cards.add(stock_info_panel, "STOCKINFO");
 
         // Action listeners
+        trans_history.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                trans_history_panel = new TransHistory(cards, taxid).panel;
+                cards.add(trans_history_panel, "TRANSHIST");
+                CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "TRANSHIST");
+            }
+        });
+
         dep_with.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "DEPWITH");
             }
         });
+
         buy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "BUY");
             }
         });
+
         sell.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "SELL");
+            }
+        });
+
+        stock_info.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "STOCKINFO");
             }
         });
 
