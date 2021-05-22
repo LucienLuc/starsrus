@@ -15,7 +15,7 @@ public class ManagerInterface extends JFrame {
     public JLabel message;
 	public JButton add_interest, gen_stmt, list_active, gen_dter, cust_rep, del_trans, 
 	open_market, close_market, set_stock_price, set_date; //debug ops
-	JPanel add_interest_panel;
+	JPanel add_interest_panel, set_stock_price_panel;
 	public JPanel gen_stmt_panel, cust_rep_panel;
 	
 	ManagerInterface(JPanel cards) {
@@ -66,6 +66,8 @@ public class ManagerInterface extends JFrame {
 		close_market = new JButton("Close Market");
 
 		set_stock_price = new JButton("Set Stock Price");
+		set_stock_price_panel = new SetStockPrice(cards).panel;
+
 		set_date = new JButton("Set Date");
 
 		// Action listeners
@@ -92,8 +94,18 @@ public class ManagerInterface extends JFrame {
 			}
 		});
 
+		set_stock_price.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "SETSTOCK");
+			}
+		});
+
+
+
 		// add to cards
 		cards.add(add_interest_panel, "ADDINTEREST");
+		cards.add(set_stock_price_panel, "SETSTOCK");
 
 		message = new JLabel();
 		

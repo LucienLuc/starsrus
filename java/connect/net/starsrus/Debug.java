@@ -116,6 +116,23 @@ public class Debug {
                 System.out.println(e.getMessage());
             }
         }
+    }
 
+    public void setStockPrice(String aid, double price) {
+        String stockupdatesql = "UPDATE Actors SET currprice = ? WHERE aid = ?\n ";
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(stockupdatesql)) {
+            
+            pstmt.setDouble(1, price);
+            pstmt.setString(2, aid);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Set new price of stock " + aid + " to " + Double.toString(price));
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
