@@ -17,6 +17,7 @@ CLASSES = \
 	net/starsrus/StockAccount.java \
 	net/starsrus/Contracts.java \
 	net/starsrus/Helper.java \
+	net/starsrus/Debug.java \
 	\
 	net/starsrus/ui/UserInterface.java \
 	net/starsrus/ui/Login.java \
@@ -42,6 +43,9 @@ run:
 
 setup:
 	java -cp "$(SQLPATH)":classes starsrus.Main setup
+
+reset:
+	java -cp "$(SQLPATH)":classes starsrus.Main reset
 
 clean:
 	rm -r ./classes/*

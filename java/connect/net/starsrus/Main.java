@@ -133,8 +133,16 @@ public class Main {
 
         // do we need accountid?
         String marketAccountTable = "CREATE TABLE IF NOT EXISTS MarketAccounts (\n"
-        + "	taxid int PRIMARY KEY NOT NULL,\n"
+        + "	taxid int NOT NULL,\n"
         + " balance real NOT NULL, \n"
+        + " FOREIGN KEY (taxid) REFERENCES Customers \n"
+        + ");";
+
+        String dailyBalanceTable = "CREATE TABLE IF NOT EXISTS DailyBalance (\n"
+        + "	taxid int NOT NULL,\n"
+        + " date DATE NOT NULL, \n"
+        + " balance real NOT NULL, \n"
+        + " PRIMARY KEY (taxid, date), \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + ");";
 
@@ -192,6 +200,9 @@ public class Main {
 
             stmt.execute(marketAccountTable);
             System.out.println("Created table MarketAccounts");
+
+            stmt.execute(dailyBalanceTable);
+            System.out.println("Created table DailyBalance");
             
             stmt.execute(stockAccountTable);
             System.out.println("Created table Stocks");
@@ -303,6 +314,27 @@ public class Main {
         }
     }
 
+    public static void dropTables() {
+        String[] tableList = {"Actors", "Customers", "MarketAccounts", 
+        "System", "Contracts", "Managers", "DailyBalance", "Stocks", "Transactions"};
+
+        for (int i = 0; i < tableList.length; i++) {
+            String table = tableList[i];
+
+            String deleteSql = "DROP TABLE IF EXISTS " + table;
+
+            try (Connection conn = DriverManager.getConnection(Main.url);
+                PreparedStatement pstmt = conn.prepareStatement(deleteSql)) {
+                
+                pstmt.executeUpdate();
+
+                conn.close();
+                System.out.println("Deleted table " + table);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -313,6 +345,9 @@ public class Main {
         else if (args[0].equals("setup")) {
             setup();
             insertSampleData();
+        }
+        else if (args[0].equals("reset")) {
+            dropTables();
         }
     }
 }
