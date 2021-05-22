@@ -166,6 +166,14 @@ public class Main {
         + " dob DATE NOT NULL \n"
         + ");";
 
+        String dailyStockTable = "CREATE TABLE IF NOT EXISTS DailyStock (\n"
+        + "	aid char(3) NOT NULL,\n"
+        + " date DATE NOT NULL, \n"
+        + " price real NOT NULL, \n"
+        + " PRIMARY KEY (aid, date), \n"
+        + " FOREIGN KEY (aid) REFERENCES Actors \n"
+        + ");";
+
         String contractsTable = "CREATE TABLE IF NOT EXISTS Contracts (\n"
         + "	aid char(3) NOT NULL,\n"
         + " title varchar(20) NOT NULL, \n"
@@ -209,6 +217,9 @@ public class Main {
 
             stmt.execute(actorTable);
             System.out.println("Created table Actors");
+
+            stmt.execute(dailyStockTable);
+            System.out.println("Created table DailyStock");
 
             stmt.execute(contractsTable);
             System.out.println("Created table Contracts");
@@ -316,7 +327,7 @@ public class Main {
 
     public static void dropTables() {
         String[] tableList = {"Actors", "Customers", "MarketAccounts", 
-        "System", "Contracts", "Managers", "DailyBalance", "Stocks", "Transactions"};
+        "System", "Contracts", "Managers", "DailyBalance", "Stocks", "DailyStock", "Transactions"};
 
         for (int i = 0; i < tableList.length; i++) {
             String table = tableList[i];

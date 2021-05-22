@@ -161,4 +161,28 @@ public class Transaction {
         }
         return res;
     }
+
+    void storeInterestTransaction(String date, int taxid, double amount) {
+        String transactionsql = "INSERT INTO Transactions VALUES(\n"
+        + "	?, ?, ?, ?, ?, ?, ?\n"
+        + ");"; 
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(transactionsql)) {
+            
+            pstmt.setString(1, date);
+            pstmt.setInt(2, taxid);
+            pstmt.setString(3, "i");
+            pstmt.setNull(4, Types.VARCHAR);
+            pstmt.setNull(5, Types.VARCHAR);
+            pstmt.setNull(6, Types.VARCHAR);
+            pstmt.setDouble(7, amount);
+
+            pstmt.executeUpdate();
+            System.out.println("Stored interest transaction of " + Double.toString(amount) + " for " + Integer.toString(taxid));
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

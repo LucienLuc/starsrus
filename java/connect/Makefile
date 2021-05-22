@@ -32,6 +32,7 @@ CLASSES = \
 	net/starsrus/ui/StockInfo.java \
 	\
 	net/starsrus/ui/ManagerInterface.java \
+	net/starsrus/ui/AddInterest.java \
 
 .PHONY: classes
 

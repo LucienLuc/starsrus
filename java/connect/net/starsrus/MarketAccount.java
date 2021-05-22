@@ -15,6 +15,10 @@ public class MarketAccount {
         this.taxid = taxid;
     }
 
+    public void addInterest(double rate) {
+        
+    }
+
     public double getBalance() {
         String balancesql = "SELECT balance \n"
         + "FROM MarketAccounts \n"

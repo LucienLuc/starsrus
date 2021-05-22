@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.util.ArrayList;
+
 public class Manager {
 
     // only for sample data
@@ -74,5 +76,59 @@ public class Manager {
             System.out.println("Invalid username and password combination.");
             return false;
         }
+    }
+
+    public void addInterest(double percent) {
+        String loginSql = "SELECT taxid, balance \n"
+        + "FROM MarketAccounts ";
+
+        ArrayList<Integer> taxidList = new ArrayList<Integer>();
+        ArrayList<Double> balanceList = new ArrayList<Double>();
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(loginSql)) {
+            
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                taxidList.add(rs.getInt("taxid"));
+                balanceList.add(rs.getDouble("balance"));
+            }
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        for (int i = 0; i < taxidList.size(); i++) {
+            int taxid = taxidList.get(i);
+            double balance = balanceList.get(i);
+
+            double interestMoney = balance * percent * 0.01;
+
+            // Update Market account balance
+            String systemupdatesql = "UPDATE MarketAccounts SET balance = balance + ? WHERE taxid = ?";
+
+            try (Connection conn = DriverManager.getConnection(Main.url);
+                PreparedStatement pstmt = conn.prepareStatement(systemupdatesql)) {
+                
+                pstmt.setDouble(1, interestMoney);
+                pstmt.setInt(2, taxid);
+                pstmt.executeUpdate();
+
+                System.out.println("Added interest amount " + Double.toString(interestMoney) + " for user " + Integer.toString(taxid));
+                conn.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+
+            //Store transaction
+            Sys s = new Sys();
+            String today = s.getToday();
+            Transaction t = new Transaction();
+            t.storeInterestTransaction(today, taxid, interestMoney);
+
+        }
+
     }
 }

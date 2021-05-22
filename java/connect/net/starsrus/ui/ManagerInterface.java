@@ -15,6 +15,7 @@ public class ManagerInterface extends JFrame {
     public JLabel message;
 	public JButton add_interest, gen_stmt, list_active, gen_dter, cust_rep, del_trans, 
 	open_market, close_market, set_stock_price, set_date; //debug ops
+	JPanel add_interest_panel;
 	public JPanel gen_stmt_panel, cust_rep_panel;
 	
 	ManagerInterface(JPanel cards) {
@@ -22,7 +23,8 @@ public class ManagerInterface extends JFrame {
 		
 		
 		// Add Interest
-		add_interest = new JButton("Add Interest to all Market Accounts");		
+		add_interest = new JButton("Add Interest to all Market Accounts");	
+		add_interest_panel = new AddInterest(cards).panel;
 		
 		// Generate Monthly Statement
 		gen_stmt = new JButton("Generate Monthly Statement");
@@ -59,6 +61,7 @@ public class ManagerInterface extends JFrame {
 		open_market = new JButton("Open Market");
 
 		// Store daily balance for all market accounts
+		// Store daily closing price for all stocks
 		// Prevent people from trading stocks?
 		close_market = new JButton("Close Market");
 
@@ -66,6 +69,20 @@ public class ManagerInterface extends JFrame {
 		set_date = new JButton("Set Date");
 
 		// Action listeners
+		add_interest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "ADDINTEREST");
+			}
+		});
+
+		open_market.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Debug d = new Debug();
+				String newDate = d.openMarket();
+				message.setText("Opened market on " + newDate);
+			}
+		});
 
 		close_market.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,6 +91,9 @@ public class ManagerInterface extends JFrame {
 				message.setText("Closed market for today.");
 			}
 		});
+
+		// add to cards
+		cards.add(add_interest_panel, "ADDINTEREST");
 
 		message = new JLabel();
 		

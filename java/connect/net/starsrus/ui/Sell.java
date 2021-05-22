@@ -76,7 +76,7 @@ public class Sell {
             }
         });
 
-        panel = new JPanel(new GridLayout(5, 2));;
+        panel = new JPanel(new GridLayout(5, 2));
         panel.add(back);
         panel.add(message);
         panel.add(stock_label);
