@@ -84,11 +84,12 @@ public class Main {
         }
         // first insert, so insert tuple
         else {
-            String sql = "INSERT INTO System VALUES(?)";
+            String sql = "INSERT INTO System VALUES(?, ?)";
 
             try (Connection conn = DriverManager.getConnection(Main.url);
                     PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, date);
+                pstmt.setBoolean(2, true);
                 pstmt.executeUpdate();
                 
                 System.out.println("Set today to " + date);
@@ -104,7 +105,8 @@ public class Main {
         // Stores system date
         // make sure there is only one tuple
         String systemTable = "CREATE TABLE IF NOT EXISTS System (\n"
-        + "	today DATE NOT NULL \n"
+        + "	today DATE NOT NULL, \n"
+        + " open boolean NOT NULL"
         + ");";
 
         String managerTable = "CREATE TABLE IF NOT EXISTS Managers (\n"
@@ -232,7 +234,8 @@ public class Main {
             System.out.println(e.getMessage());
         }
 
-        setToday("2013-03-16");
+        // To store daily balance/stock price from 2013-03-01 to 2013-03-16
+        setToday("2013-03-01");
     }
 
     public static void insertSampleData() {
@@ -325,6 +328,12 @@ public class Main {
         }
     }
 
+    // To store daily balance/stock price from 2013-03-01 to 2013-03-16
+    public static void setStartDate() {
+        Debug d = new Debug();
+        d.setDate("2013-03-16");
+    }
+
     public static void dropTables() {
         String[] tableList = {"Actors", "Customers", "MarketAccounts", 
         "System", "Contracts", "Managers", "DailyBalance", "Stocks", "DailyStock", "Transactions"};
@@ -356,6 +365,7 @@ public class Main {
         else if (args[0].equals("setup")) {
             setup();
             insertSampleData();
+            setStartDate();
         }
         else if (args[0].equals("reset")) {
             dropTables();

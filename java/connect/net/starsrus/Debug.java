@@ -11,21 +11,65 @@ import java.time.LocalDate;
 
 public class Debug {
 
-    // ppen market by changing current date to tomorrow
-    // returns the new date 
-    public String openMarket() {
+    // open market by changing current date to tomorrow
+    // returns if valid
+    public boolean openMarket() {
         Sys s = new Sys();
+        boolean open = s.isOpen();
+
+        if (open) {
+            return false;
+        }
+
+        // Set market to open
+        String systemupdatesql = "UPDATE System SET open = ? \n ";
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(systemupdatesql)) {
+            
+            pstmt.setBoolean(1, true);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Opened Market");
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
         String today = s.getToday();
 
         String newDate = LocalDate.parse(today).plusDays(1).toString();
 
         Main.setToday(newDate);
-        return newDate;
+        return true;
     }
 
     // Store daily balance of all market accounts
     // Store daily closing price of stocks
-    public void closeMarket() {
+    public boolean closeMarket() {
+
+        // check if market is already closed
+        Sys s = new Sys();
+        boolean open = s.isOpen();
+
+        if (!open) {
+            return false;
+        }
+
+        // Set market to close
+        String systemupdatesql = "UPDATE System SET open = ? \n ";
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(systemupdatesql)) {
+            
+            pstmt.setBoolean(1, false);
+
+            pstmt.executeUpdate();
+
+            System.out.println("Closed Market");
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         // get all market account's taxid
         String accountcountsql = "SELECT taxid, balance \n"
@@ -52,7 +96,6 @@ public class Debug {
         + "	?, ?, ? \n"
         + ");"; 
 
-        Sys s = new Sys();
         String today = s.getToday();
         for (int i = 0; i < taxidList.size(); i++) {
 
@@ -116,6 +159,7 @@ public class Debug {
                 System.out.println(e.getMessage());
             }
         }
+        return true;
     }
 
     public void setStockPrice(String aid, double price) {
@@ -133,6 +177,25 @@ public class Debug {
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void setDate(String newDate) {
+        Sys s = new Sys();
+        String today = s.getToday();
+
+        LocalDate ldtoday = LocalDate.parse(today);
+        LocalDate ldnewDate = LocalDate.parse(newDate);
+
+        while(!ldtoday.equals(ldnewDate)) {
+
+            // Store daily information
+            closeMarket();
+
+            // Go to next day
+            openMarket();
+            String newDay = s.getToday();
+            ldtoday = LocalDate.parse(newDay);
         }
     }
 }

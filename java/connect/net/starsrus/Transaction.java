@@ -131,6 +131,9 @@ public class Transaction {
                     else if (temptype == 'd'){
                         res[i][1] = "Deposit";
                     }
+                    else if(temptype == 'i') {
+                        res[i][1] = "Interest";
+                    }
                     else {
                         System.out.println("Error");
                     }

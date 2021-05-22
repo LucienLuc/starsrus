@@ -38,11 +38,11 @@ public class StockAccount {
 
         // Store into transactions table
         // Decided to simply make all these stocks buy transactions
-        Sys system = new Sys();
-        String today = system.getToday();
-        Transaction t = new Transaction();
-        double total = (shares * buyprice + 20) * -1;
-        t.storeStockTransaction(today, taxid, 'b', shares, aid, buyprice, total);
+        // Sys system = new Sys();
+        // String today = system.getToday();
+        // Transaction t = new Transaction();
+        // double total = (shares * buyprice + 20) * -1;
+        // t.storeStockTransaction(today, taxid, 'b', shares, aid, buyprice, total);
     }
 
     // buys quantity number of stock aid 

@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 
 import starsrus.MarketAccount;
 import starsrus.Debug;
+import starsrus.Sys;
 
 public class ManagerInterface extends JFrame {
 	public JPanel cards;
@@ -15,7 +16,7 @@ public class ManagerInterface extends JFrame {
     public JLabel message;
 	public JButton add_interest, gen_stmt, list_active, gen_dter, cust_rep, del_trans, 
 	open_market, close_market, set_stock_price, set_date; //debug ops
-	JPanel add_interest_panel, set_stock_price_panel;
+	JPanel add_interest_panel, set_stock_price_panel, set_date_panel;
 	public JPanel gen_stmt_panel, cust_rep_panel;
 	
 	ManagerInterface(JPanel cards) {
@@ -69,6 +70,7 @@ public class ManagerInterface extends JFrame {
 		set_stock_price_panel = new SetStockPrice(cards).panel;
 
 		set_date = new JButton("Set Date");
+		set_date_panel = new SetDate(cards).panel;
 
 		// Action listeners
 		add_interest.addActionListener(new ActionListener() {
@@ -81,16 +83,28 @@ public class ManagerInterface extends JFrame {
 		open_market.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Debug d = new Debug();
-				String newDate = d.openMarket();
-				message.setText("Opened market on " + newDate);
+				boolean success = d.openMarket();
+				if (success) {
+					Sys s = new Sys();
+					String newDate = s.getToday();
+					message.setText("Opened market on " + newDate);
+				}
+				else {
+					message.setText("Market is already open");
+				}
 			}
 		});
 
 		close_market.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Debug d = new Debug();
-				d.closeMarket();
-				message.setText("Closed market for today.");
+				boolean success = d.closeMarket();
+				if (success) {
+					message.setText("Closed market for today.");
+				}
+				else {
+					message.setText("Market is already closed");
+				}
 			}
 		});
 
@@ -101,11 +115,19 @@ public class ManagerInterface extends JFrame {
 			}
 		});
 
+		set_date.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "SETDATE");
+			}
+		});
+
 
 
 		// add to cards
 		cards.add(add_interest_panel, "ADDINTEREST");
 		cards.add(set_stock_price_panel, "SETSTOCK");
+		cards.add(set_date_panel, "SETDATE");
 
 		message = new JLabel();
 		
