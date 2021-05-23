@@ -3,9 +3,7 @@ package starsrus.ui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.text.DecimalFormat;
 
-import starsrus.MarketAccount;
 import starsrus.Debug;
 import starsrus.Sys;
 import starsrus.Transaction;
@@ -22,7 +20,6 @@ public class ManagerInterface extends JFrame {
 	
 	ManagerInterface(JPanel cards) {
 		this.cards = cards;
-		
 		
 		// Add Interest
 		add_interest = new JButton("Add Interest to all Market Accounts");	

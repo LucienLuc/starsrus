@@ -16,6 +16,7 @@ CLASSES = \
 	net/starsrus/MarketAccount.java \
 	net/starsrus/StockAccount.java \
 	net/starsrus/Contracts.java \
+	net/starsrus/Movie.java \
 	net/starsrus/Helper.java \
 	net/starsrus/Debug.java \
 	\

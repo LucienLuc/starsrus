@@ -198,6 +198,15 @@ public class Main {
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
 
+        String movieTable = "CREATE TABLE IF NOT EXISTS Movies (\n"
+        + " mid char(10) PRIMARY KEY NOT NULL,\n"
+        + "	title varchar(30) NOT NULL,\n"
+        + " year int NOT NULL, \n" 
+        + " genre varchar(10), \n"
+        + " rating real, \n"
+        + " revenue int \n"
+        + ");";
+
         try (Connection conn = DriverManager.getConnection(url);
             Statement stmt = conn.createStatement()) {
             stmt.execute(systemTable);
@@ -229,6 +238,9 @@ public class Main {
 
             stmt.execute(transactionsTable);
             System.out.println("Created table Stocks");
+
+            stmt.execute(movieTable);
+            System.out.println("Created table Movies");
 
             conn.close();
         } catch (SQLException e) {
@@ -327,6 +339,23 @@ public class Main {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
+        //Movie info
+        try {
+            // path from /connect folder becuase this is where program is executed
+            File f = new File("./sampledata/movies.txt");
+            Scanner s = new Scanner(f);
+            while (s.hasNextLine()) {
+                String data = s.nextLine();
+                String[] p = data.split(",");
+                Movie m = new Movie();
+                m.insertMovie(p[0], p[1], Integer.parseInt(p[2]), p[3], Double.parseDouble(p[4]), Integer.parseInt(p[5]));
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 
     // To store daily balance/stock price from 2013-03-01 to 2013-03-16
@@ -337,7 +366,7 @@ public class Main {
 
     public static void dropTables() {
         String[] tableList = {"Actors", "Customers", "MarketAccounts", 
-        "System", "Contracts", "Managers", "DailyBalance", "Stocks", "DailyStock", "Transactions"};
+        "System", "Contracts", "Managers", "DailyBalance", "Stocks", "DailyStock", "Transactions", "Movies"};
 
         for (int i = 0; i < tableList.length; i++) {
             String table = tableList[i];
