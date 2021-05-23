@@ -17,7 +17,7 @@ public class ManagerInterface extends JFrame {
     public JLabel message;
 	public JButton add_interest, gen_stmt, list_active, gen_dter, cust_rep, del_trans, 
 	open_market, close_market, set_stock_price, set_date; //debug ops
-	JPanel add_interest_panel, set_stock_price_panel, set_date_panel;
+	JPanel add_interest_panel, set_stock_price_panel, list_active_panel, set_date_panel;
 	public JPanel gen_stmt_panel, cust_rep_panel;
 	
 	ManagerInterface(JPanel cards) {
@@ -34,7 +34,8 @@ public class ManagerInterface extends JFrame {
 		
 		// List Active Customers
 		list_active = new JButton("List Active Customers");
-			
+		list_active_panel = new ListActive(cards).panel;
+
 		// Generate DTER
 		gen_dter = new JButton("Generate Government Drug & Tax Evasion Report");		
 		
@@ -78,6 +79,17 @@ public class ManagerInterface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				CardLayout cl = (CardLayout)cards.getLayout();
 				cl.show(cards, "GENSTMT");
+			}
+		});
+
+		list_active.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cards.remove(list_active_panel);
+				list_active_panel = new ListActive(cards).panel;
+				cards.add(list_active_panel, "LISTACTIVE");
+				
+				CardLayout cl = (CardLayout)cards.getLayout();
+				cl.show(cards, "LISTACTIVE");
 			}
 		});
 
@@ -139,6 +151,7 @@ public class ManagerInterface extends JFrame {
 		cards.add(set_stock_price_panel, "SETSTOCK");
 		cards.add(set_date_panel, "SETDATE");
 		cards.add(gen_stmt_panel, "GENSTMT");
+		cards.add(list_active_panel, "LISTACTIVE");
 
 		message = new JLabel();
 		

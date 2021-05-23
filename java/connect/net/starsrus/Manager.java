@@ -155,6 +155,33 @@ public class Manager {
             t.storeInterestTransaction(today, taxid, interestMoney);
 
         }
-
     }
+
+     // returns list of taxid who have traded at least 1000 shares in last month
+    public ArrayList<Integer> getActiveCustomers() {
+
+        String activesql = "SELECT taxid \n"
+        + "FROM (\n"
+            + "SELECT taxid, SUM(shares) as sum \n"
+            + "FROM Transactions \n"
+            + "WHERE type = 'b' OR type = 's' \n"
+            + "GROUP BY taxid )"
+        + "WHERE sum > 999";
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(activesql)) {
+        
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("taxid"));
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
 }
