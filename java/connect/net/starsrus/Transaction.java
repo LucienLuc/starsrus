@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 
 public class Transaction {
-    void storeStockTransaction(String date, int taxid, char type, int shares, String aid, double price, double total) {
+    void storeStockTransaction(String date, int taxid, char type, int shares, String aid, double price, double total, double earnings) {
         String transactionsql = "INSERT INTO Transactions VALUES(\n"
-        + "	?, ?, ?, ?, ?, ?, ?\n"
+        + "	?, ?, ?, ?, ?, ?, ?, ?\n"
         + ");"; 
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(transactionsql)) {
@@ -25,6 +25,7 @@ public class Transaction {
             pstmt.setString(5, aid);
             pstmt.setDouble(6, price);
             pstmt.setDouble(7, total);
+            pstmt.setDouble(8, earnings);
 
             pstmt.executeUpdate();
             System.out.println("Stored transaction of " + Integer.toString(shares) + " shares of " + aid + " for " + Integer.toString(taxid) + 
@@ -38,7 +39,7 @@ public class Transaction {
 
     void storeDepositTransaction(String date, int taxid, double total) {
         String transactionsql = "INSERT INTO Transactions VALUES(\n"
-        + "	?, ?, ?, ?, ?, ?, ?\n"
+        + "	?, ?, ?, ?, ?, ?, ?, ?\n"
         + ");"; 
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(transactionsql)) {
@@ -50,6 +51,7 @@ public class Transaction {
             pstmt.setNull(5, Types.VARCHAR);
             pstmt.setNull(6, Types.VARCHAR);
             pstmt.setDouble(7, total);
+            pstmt.setDouble(8, 0);
 
             pstmt.executeUpdate();
             System.out.println("Stored deposit transaction of " + Double.toString(total) + " for " + Integer.toString(taxid));
@@ -62,7 +64,7 @@ public class Transaction {
 
     void storeWithdrawTransaction(String date, int taxid, double total) {
         String transactionsql = "INSERT INTO Transactions VALUES(\n"
-        + "	?, ?, ?, ?, ?, ?, ?\n"
+        + "	?, ?, ?, ?, ?, ?, ?, ?\n"
         + ");"; 
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(transactionsql)) {
@@ -74,6 +76,7 @@ public class Transaction {
             pstmt.setNull(5, Types.VARCHAR);
             pstmt.setNull(6, Types.VARCHAR);
             pstmt.setDouble(7, total);
+            pstmt.setDouble(8, 0);
 
             pstmt.executeUpdate();
             System.out.println("Stored withdraw transaction of " + Double.toString(total) + " for " + Integer.toString(taxid));
@@ -104,9 +107,9 @@ public class Transaction {
             System.out.println(e.getMessage());
         }
 
-        Object[][] res = new Object[count][6];
+        Object[][] res = new Object[count][7];
 
-        String transactionsql = "SELECT date, type, shares, aid, price, total \n"
+        String transactionsql = "SELECT date, type, shares, aid, price, total, earnings \n"
         + "FROM Transactions \n"
         + "WHERE taxid = ?"; 
 
@@ -156,6 +159,8 @@ public class Transaction {
                     }
     
                     res[i][5] = "$" + new DecimalFormat("#.00").format(rs.getDouble("total"));
+                    res[i][6] = "$" + new DecimalFormat("#.00").format(rs.getDouble("earnings"));
+
                     i++;
                 }
             conn.close();
@@ -167,7 +172,7 @@ public class Transaction {
 
     void storeInterestTransaction(String date, int taxid, double amount) {
         String transactionsql = "INSERT INTO Transactions VALUES(\n"
-        + "	?, ?, ?, ?, ?, ?, ?\n"
+        + "	?, ?, ?, ?, ?, ?, ?, ?\n"
         + ");"; 
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(transactionsql)) {
@@ -179,6 +184,7 @@ public class Transaction {
             pstmt.setNull(5, Types.VARCHAR);
             pstmt.setNull(6, Types.VARCHAR);
             pstmt.setDouble(7, amount);
+            pstmt.setDouble(8, amount);
 
             pstmt.executeUpdate();
             System.out.println("Stored interest transaction of " + Double.toString(amount) + " for " + Integer.toString(taxid));

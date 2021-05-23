@@ -157,7 +157,7 @@ public class Manager {
         }
     }
 
-     // returns list of taxid who have traded at least 1000 shares in last month
+    // returns list of taxid who have traded at least 1000 shares in last month
     public ArrayList<Integer> getActiveCustomers() {
 
         String activesql = "SELECT taxid \n"
@@ -172,6 +172,32 @@ public class Manager {
 
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(activesql)) {
+        
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("taxid"));
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
+    }
+
+    // returns list of taxid who have earned at least $10000 (from stocks and interest)
+    public ArrayList<Integer> getDTER() {
+
+        String dtersql = "SELECT taxid \n"
+        + "FROM (\n"
+            + "SELECT taxid, SUM(earnings) as sum \n"
+            + "FROM Transactions \n"
+            + "GROUP BY taxid )"
+        + "WHERE sum > 10000";
+
+        ArrayList<Integer> list = new ArrayList<Integer>();
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(dtersql)) {
         
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {

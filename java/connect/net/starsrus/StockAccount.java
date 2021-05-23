@@ -159,7 +159,7 @@ public class StockAccount {
         String today = system.getToday();
         Transaction t = new Transaction();
         double format = transactionCost * -1;
-        t.storeStockTransaction(today, taxid, 'b', quantity, aid, price, format);
+        t.storeStockTransaction(today, taxid, 'b', quantity, aid, price, format, 0); //earnings are 0
 
         return true;
         
@@ -197,7 +197,8 @@ public class StockAccount {
         Stock stock = new Stock();
         double currPrice = stock.getPrice(aid);
 
-        double profit = (currPrice - buyPrice) * quantity - 20; //$20 commision
+        double earnings = (currPrice - buyPrice) * quantity - 20; //$20 commission
+        double gain = currPrice * quantity - 20; // $20 commission
 
         // delete tuple from Stock table
         if (count == quantity) {
@@ -246,7 +247,7 @@ public class StockAccount {
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(profitsql)) {
         
-            pstmt.setDouble(1,profit);
+            pstmt.setDouble(1,gain);
             pstmt.setInt(2,taxid);
             pstmt.executeUpdate();
 
@@ -259,7 +260,7 @@ public class StockAccount {
         Sys system = new Sys();
         String today = system.getToday();
         Transaction t = new Transaction();
-        t.storeStockTransaction(today, taxid, 's', quantity, aid, currPrice, profit);
+        t.storeStockTransaction(today, taxid, 's', quantity, aid, currPrice, gain, earnings);
 
         return true;
     }

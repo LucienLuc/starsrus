@@ -143,6 +143,29 @@ public class Customer {
         return email;
     }
 
+    public String getState(int taxid) {
+        String stateSql = "SELECT state \n"
+        + "FROM Customers "
+        + "WHERE taxid = ?";
+
+        String state = "";
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(stateSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                state = rs.getString("state");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return state;
+    }
+
 
     // Inital balance calculated by getting daily closing balance from earliest day in db
     public double getInitialMonthlyBalance(int taxid) {

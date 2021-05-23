@@ -33,6 +33,7 @@ CLASSES = \
 	\
 	net/starsrus/ui/ManagerInterface.java \
 	net/starsrus/ui/GenStmt.java \
+	net/starsrus/ui/GenDter.java \
 	net/starsrus/ui/ListActive.java \
 	net/starsrus/ui/AddInterest.java \
 	net/starsrus/ui/SetStockPrice.java \

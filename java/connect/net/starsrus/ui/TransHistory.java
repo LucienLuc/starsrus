@@ -27,7 +27,6 @@ public class TransHistory extends JFrame{
         String[] columns = {"Date", "Type", "Shares", "AID", "Price", "Total"};
 
         table = new JTable(list, columns) {
-            private static final long serialVersionUID = 1L;
 
             public boolean isCellEditable(int row, int column) {                
                 return false;               

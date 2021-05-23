@@ -193,6 +193,7 @@ public class Main {
         + " aid char(3), \n"
         + " price real, \n"
         + " total real NOT NULL, \n"
+        + " earnings real NOT NULL, \n"
         + " FOREIGN KEY (taxid) REFERENCES Customers \n"
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
