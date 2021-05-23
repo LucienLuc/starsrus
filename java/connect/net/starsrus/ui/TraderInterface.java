@@ -14,7 +14,7 @@ public class TraderInterface extends JFrame{
     public JTextField deposit_value, withdraw_value;
     public JPasswordField password_text;
     public JButton dep_with, buy, sell, stock_info, movie_info, trans_history, debug;
-    public JPanel dep_with_panel, buy_panel, sell_panel, trans_history_panel, stock_info_panel;
+    public JPanel dep_with_panel, buy_panel, sell_panel, trans_history_panel, stock_info_panel, movie_info_panel, top_movies_panel;
     public int taxid;
     public String user;
 
@@ -50,6 +50,8 @@ public class TraderInterface extends JFrame{
         sell_panel = new Sell(cards, taxid, this).panel;
         trans_history_panel = new TransHistory(cards, taxid).panel;
         stock_info_panel = new StockInfo(cards).panel;
+        movie_info_panel = new MovieInfo(cards).panel;
+        top_movies_panel = new TopMovies(cards).panel;
 
         // Add to cards
         cards.add(dep_with_panel, "DEPWITH");
@@ -57,6 +59,8 @@ public class TraderInterface extends JFrame{
         cards.add(sell_panel, "SELL");
         cards.add(trans_history_panel, "TRANSHIST");
         cards.add(stock_info_panel, "STOCKINFO");
+        cards.add(movie_info_panel, "MOVIEINFO");
+        cards.add(top_movies_panel, "TOPMOVIES");
 
         // Action listeners
         trans_history.addActionListener(new ActionListener() {
@@ -93,6 +97,17 @@ public class TraderInterface extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "STOCKINFO");
+            }
+        });
+
+        movie_info.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                cards.remove(movie_info_panel);
+				movie_info_panel = new MovieInfo(cards).panel;
+				cards.add(movie_info_panel, "MOVIEINFO");
+
+                CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "MOVIEINFO");
             }
         });
 

@@ -31,6 +31,8 @@ CLASSES = \
 	net/starsrus/ui/Buy.java \
 	net/starsrus/ui/Sell.java \
 	net/starsrus/ui/StockInfo.java \
+	net/starsrus/ui/MovieInfo.java \
+	net/starsrus/ui/TopMovies.java \
 	\
 	net/starsrus/ui/ManagerInterface.java \
 	net/starsrus/ui/GenStmt.java \

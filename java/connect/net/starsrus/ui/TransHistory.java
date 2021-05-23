@@ -16,7 +16,6 @@ public class TransHistory extends JFrame{
     public JButton back;
     public int taxid;
 
-
     TransHistory(JPanel cards, int taxid) {
         this.cards = cards;
 

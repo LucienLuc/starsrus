@@ -14,9 +14,6 @@ import java.util.Scanner;
 import starsrus.ui.UserInterface; 
 
 public class Main {
-     /**
-     * Connect to our database
-     */
 
     public static String url = "jdbc:sqlite:/Users/lucienluc/Downloads/Spring 2021/CMPSC174a/starsrus/db/starsrus.db";
 
