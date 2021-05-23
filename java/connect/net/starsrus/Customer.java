@@ -166,6 +166,31 @@ public class Customer {
         return state;
     }
 
+    public double getBalance(int taxid) {
+        String balanceSql = "SELECT balance \n"
+        + "FROM MarketAccounts "
+        + "WHERE taxid = ?";
+
+        double balance = 0;
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(balanceSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                balance = rs.getDouble("balance");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return balance;
+    }
+
+
+
 
     // Inital balance calculated by getting daily closing balance from earliest day in db
     public double getInitialMonthlyBalance(int taxid) {

@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -208,6 +209,55 @@ public class Manager {
             System.out.println(e.getMessage());
         }
         return list;
+    }
+
+    public Object[][] getCustReport(int taxid) {
+
+        // count stock accounts
+        String countsql = "SELECT COUNT(*) as count\n"
+        + "FROM Stocks \n"
+        + "WHERE taxid = ? ";
+
+        int count = 0;
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+        PreparedStatement pstmt = conn.prepareStatement(countsql)) {
+        
+            pstmt.setInt(1, taxid);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Object[][] res = new Object[count][3];
+
+        String reportsql = "SELECT shares, aid, buyprice \n"
+        + "FROM Stocks \n"
+        + "WHERE taxid = ?";
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(reportsql)) {
+            
+            pstmt.setInt(1, taxid);
+            ResultSet rs = pstmt.executeQuery();
+
+            int i = 0;
+            while (rs.next()) {
+                res[i][0] = Integer.toString(rs.getInt("shares"));
+                res[i][1] = rs.getString("aid");
+                res[i][2] = new DecimalFormat("#.00").format(rs.getDouble("buyprice"));
+                i++;
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return res;
     }
 
 }

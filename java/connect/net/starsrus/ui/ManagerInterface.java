@@ -42,14 +42,7 @@ public class ManagerInterface extends JFrame {
 		
 		// Customer Report
 		cust_rep = new JButton("Generate Customer Report");
-		//cust_rep_panel = new SOMETHING; // need another class for this
-		// cards.add(cust_rep_panel, "CUSTREP");
-		// cust_rep.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         CardLayout cl = (CardLayout)cards.getLayout();
-        //         cl.show(cards, "CUSTREP");
-        //     }
-        // });
+		cust_rep_panel = new CustRep(cards).panel; // need another class for this
 		
 		// Delete Transactions
 		del_trans = new JButton("Delete all Transactions");	
@@ -104,6 +97,13 @@ public class ManagerInterface extends JFrame {
 				cl.show(cards, "GENDTER");
 			}
 		});
+
+		cust_rep.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "CUSTREP");
+            }
+        });
 
 		del_trans.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,6 +165,7 @@ public class ManagerInterface extends JFrame {
 		cards.add(gen_stmt_panel, "GENSTMT");
 		cards.add(list_active_panel, "LISTACTIVE");
 		cards.add(gen_dter_panel, "GENDTER");
+		cards.add(cust_rep_panel, "CUSTREP");
 
 		message = new JLabel();
 		
