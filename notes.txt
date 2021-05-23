@@ -1,3 +1,11 @@
+### -- File Structure --- ###
+- Core code in java/connect/net/starsrus
+- Further subdivisions as follows
+    - sql/ : Classes relating to schemas and SQL queries
+    - ui/ : All UI elements
+    - ui/ti : All TraderInterface elements
+    - ui/mi : All ManagerInterface elements
+
 ### --- Table Design --- ###
 1. System
 - date: Stores "today"

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.Scanner;
 
 import starsrus.ui.UserInterface; 
+import starsrus.sql.*;
 
 public class Main {
 
@@ -313,7 +314,7 @@ public class Main {
                 String data = s.nextLine();
                 String[] p = data.split(",");
                 String date = Helper.convertDate(p[3]);
-                Actor a = new Actor(p[0], Double.parseDouble(p[1]), p[2], date);
+                new Actor(p[0], Double.parseDouble(p[1]), p[2], date);
             }
             s.close();
         } catch (FileNotFoundException e) {
@@ -387,7 +388,7 @@ public class Main {
      */
     public static void main(String[] args) {
         if (args[0].equals("run")) {
-            UserInterface ui = new UserInterface();
+            new UserInterface();
         }
         else if (args[0].equals("setup")) {
             setup();
