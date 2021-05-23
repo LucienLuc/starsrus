@@ -107,7 +107,7 @@ public class Movie {
         Object[][] list = new Object[count][6];
         try (Connection conn = DriverManager.getConnection(Main.url);
             PreparedStatement pstmt = conn.prepareStatement(listsql)) {
-                
+
             pstmt.setInt(1, start_year);
             pstmt.setInt(2, end_year);
             pstmt.setDouble(3, rating);
@@ -129,5 +129,28 @@ public class Movie {
             System.out.println(e.getMessage());
         }
         return list;
+    }
+
+    public double getRating(int id) {
+        String countsql = "SELECT rating \n"
+        + "FROM Movies \n"
+        + "WHERE mid = ?";
+
+        double rating = -1;
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(countsql)) {
+
+            pstmt.setInt(1, id);
+            
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                rating = rs.getDouble("rating");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return rating;
     }
 }

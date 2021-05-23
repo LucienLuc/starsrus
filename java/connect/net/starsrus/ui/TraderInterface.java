@@ -14,7 +14,7 @@ public class TraderInterface extends JFrame{
     public JTextField deposit_value, withdraw_value;
     public JPasswordField password_text;
     public JButton dep_with, buy, sell, stock_info, movie_info, trans_history, debug;
-    public JPanel dep_with_panel, buy_panel, sell_panel, trans_history_panel, stock_info_panel, movie_info_panel, top_movies_panel;
+    public JPanel dep_with_panel, buy_panel, sell_panel, trans_history_panel, stock_info_panel, movie_info_panel, top_movies_panel, reviews_panel;
     public int taxid;
     public String user;
 
@@ -52,6 +52,7 @@ public class TraderInterface extends JFrame{
         stock_info_panel = new StockInfo(cards).panel;
         movie_info_panel = new MovieInfo(cards).panel;
         top_movies_panel = new TopMovies(cards).panel;
+        reviews_panel = new Reviews(cards).panel;
 
         // Add to cards
         cards.add(dep_with_panel, "DEPWITH");
@@ -61,6 +62,7 @@ public class TraderInterface extends JFrame{
         cards.add(stock_info_panel, "STOCKINFO");
         cards.add(movie_info_panel, "MOVIEINFO");
         cards.add(top_movies_panel, "TOPMOVIES");
+        cards.add(reviews_panel, "REVIEWS");
 
         // Action listeners
         trans_history.addActionListener(new ActionListener() {

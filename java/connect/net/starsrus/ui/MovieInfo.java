@@ -14,7 +14,6 @@ public class MovieInfo extends JFrame{
     JScrollPane scrollPane;
     public JTable table;
     public JButton back, top_movies, reviews;
-    public int taxid;
 
     MovieInfo(JPanel cards) {
         this.cards = cards;
@@ -34,6 +33,13 @@ public class MovieInfo extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "TOPMOVIES");
+            }
+        });
+
+        reviews.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CardLayout cl = (CardLayout)cards.getLayout();
+                cl.show(cards, "REVIEWS");
             }
         });
         
