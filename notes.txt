@@ -1,0 +1,42 @@
+### --- Table Design --- ###
+1. System
+- date: Stores "today"
+- open: 0 if market is closed. 1 if market is open
+
+2. Transactions
+- Earnings stored for each transaction. Only sell operations have earnings. All other operations have earnings of $0.
+Sell earnings are calculated usng the formula: (stock_sell_price - stock_buy_price) - 20
+$20 Commission for each sell operation
+
+3. Stock Accounts
+- Each customer has a unique stock account for each stock at a certain buy price
+- So primary key would be the tuple (taxid, aid, buy_price)
+
+### --- Transactions --- ###
+1. Buy/Sell
+- A customer can only buy if they have enough money in their market account
+- A customer sells by specifying stock, quantity, buy_price. They can only sell if they have at least QUANTITY amount of STOCK
+at the buy_price
+
+### --- Manager Ops --- ###
+1. Add Interest
+- Starting balance is the balance recorded at the end of the first day (when the market is first closed)
+- Ending balance is balance recorded at the end of the last day (when the market is last closed)
+- So if run function when market is open, interest is calculated from ending balance from PREVIOUS day
+- If run when market is closed, interest is calculated from ending balance from when market closed
+
+### --- Debug Ops --- ###
+
+1. Open Market
+- Only works when market is closed
+- Increments System day to next day
+
+2. Close Market
+- Only works when market is open
+- Stores ending daily balance for all MarketAccounts
+- Stores ending stock price for all Actors
+
+3. Set date
+- Only works when market is currently open
+- Loops through Closing market and opening market until current date is reached
+- End state of system is open market
