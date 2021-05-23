@@ -31,6 +31,7 @@ public class DepWith extends JFrame{
 
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                message.setText("");
                 CardLayout cl = (CardLayout)cards.getLayout();
                 cl.show(cards, "TI");
             }

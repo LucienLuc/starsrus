@@ -138,8 +138,21 @@ public class StockAccount {
             }
         }
 
-        // withdraw money from market account
-        ma.withdraw(transactionCost);
+        // subtract money from market account
+        String costsql = "UPDATE MarketAccounts SET balance = balance - ? \n"
+        + "WHERE taxid = ?";
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(costsql)) {
+        
+            pstmt.setDouble(1,transactionCost);
+            pstmt.setInt(2,taxid);
+            pstmt.executeUpdate();
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         // store transaction
         Sys system = new Sys();
@@ -226,9 +239,21 @@ public class StockAccount {
             }
         }
 
-        //deposit money into market account
-        MarketAccount ma = new MarketAccount(taxid);
-        ma.deposit(profit);
+        //add money into market account
+        String profitsql = "UPDATE MarketAccounts SET balance = balance + ? \n"
+        + "WHERE taxid = ?";
+
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(profitsql)) {
+        
+            pstmt.setDouble(1,profit);
+            pstmt.setInt(2,taxid);
+            pstmt.executeUpdate();
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         //store transaction
         Sys system = new Sys();

@@ -60,34 +60,34 @@ public class TransHistory extends JFrame{
         panel.add(scrollPane);
     }
 
-    void update() {
-        Transaction t = new Transaction();
-        Object[][] list = t.getTransactionHistory(taxid);
-        String[] columns = {"Date", "Type", "Shares", "AID", "Price", "Total"};
+    // void update() {
+    //     Transaction t = new Transaction();
+    //     Object[][] list = t.getTransactionHistory(taxid);
+    //     String[] columns = {"Date", "Type", "Shares", "AID", "Price", "Total"};
 
-        table = new JTable(list, columns) {
-            private static final long serialVersionUID = 1L;
+    //     table = new JTable(list, columns) {
+    //         private static final long serialVersionUID = 1L;
 
-            public boolean isCellEditable(int row, int column) {                
-                return false;               
-            };
-        };
+    //         public boolean isCellEditable(int row, int column) {                
+    //             return false;               
+    //         };
+    //     };
 
-        // allow scroll
-        scrollPane = new JScrollPane(table);
-        table.setFillsViewportHeight(true);
+    //     // allow scroll
+    //     scrollPane = new JScrollPane(table);
+    //     table.setFillsViewportHeight(true);
 
-        // Change header colors
-        JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.black);
-        header.setForeground(Color.yellow);
+    //     // Change header colors
+    //     JTableHeader header = table.getTableHeader();
+    //     header.setBackground(Color.black);
+    //     header.setForeground(Color.yellow);
 
-        // Set column sizes
-        table.getColumnModel().getColumn(0).setPreferredWidth(150);
-        table.getColumnModel().getColumn(5).setPreferredWidth(100);
+    //     // Set column sizes
+    //     table.getColumnModel().getColumn(0).setPreferredWidth(150);
+    //     table.getColumnModel().getColumn(5).setPreferredWidth(100);
 
-        panel = new JPanel();
-        panel.add(back);
-        panel.add(scrollPane);
-    }
+    //     panel = new JPanel();
+    //     panel.add(back);
+    //     panel.add(scrollPane);
+    // }
 }

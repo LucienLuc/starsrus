@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import starsrus.MarketAccount;
 import starsrus.Debug;
 import starsrus.Sys;
+import starsrus.Transaction;
 
 public class ManagerInterface extends JFrame {
 	public JPanel cards;
@@ -29,14 +30,7 @@ public class ManagerInterface extends JFrame {
 		
 		// Generate Monthly Statement
 		gen_stmt = new JButton("Generate Monthly Statement");
-		//gen_stmt_panel = new SOMETHING; // need another class
-		// cards.add(gen_stmt_panel, "GENSTMT");
-		// gen_stmt.addActionListener(new ActionListener() {
-        //     public void actionPerformed(ActionEvent e) {
-        //         CardLayout cl = (CardLayout)cards.getLayout();
-        //         cl.show(cards, "GENSTMT");
-        //     }
-        // });
+		gen_stmt_panel = new GenStmt(cards).panel; 
 		
 		// List Active Customers
 		list_active = new JButton("List Active Customers");
@@ -80,6 +74,22 @@ public class ManagerInterface extends JFrame {
 			}
 		});
 
+		gen_stmt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CardLayout cl = (CardLayout)cards.getLayout();
+				cl.show(cards, "GENSTMT");
+			}
+		});
+
+		del_trans.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Transaction t = new Transaction();
+				t.deleteAllTransactions();
+				message.setText("Deleted all transactions.");
+			}
+		});
+
+		// DEBUG OPS
 		open_market.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Debug d = new Debug();
@@ -128,6 +138,7 @@ public class ManagerInterface extends JFrame {
 		cards.add(add_interest_panel, "ADDINTEREST");
 		cards.add(set_stock_price_panel, "SETSTOCK");
 		cards.add(set_date_panel, "SETDATE");
+		cards.add(gen_stmt_panel, "GENSTMT");
 
 		message = new JLabel();
 		

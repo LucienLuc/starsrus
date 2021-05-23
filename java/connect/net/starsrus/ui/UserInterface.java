@@ -35,7 +35,7 @@ public class UserInterface extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(cards, BorderLayout.CENTER);
         setTitle("Stars R Us");
-        setSize(1000, 400);
+        setSize(1000, 600);
         setVisible(true);
         
         // Show Login/Register Page

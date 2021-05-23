@@ -94,4 +94,134 @@ public class Customer {
             return -1;
         }
     }
+
+    public String getName(int taxid) {
+        String nameSql = "SELECT name \n"
+        + "FROM Customers "
+        + "WHERE taxid = ?";
+
+        String name = "";
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(nameSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                name = rs.getString("name");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return name;
+    }
+
+    public String getEmail(int taxid) {
+        String emailSql = "SELECT email \n"
+        + "FROM Customers "
+        + "WHERE taxid = ?";
+
+        String email = "";
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(emailSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                email = rs.getString("email");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return email;
+    }
+
+
+    // Inital balance calculated by getting daily closing balance from earliest day in db
+    public double getInitialMonthlyBalance(int taxid) {
+        String balanceSql = "SELECT balance \n"
+        + "FROM DailyBalance "
+        + "WHERE taxid = ?"
+        + "ORDER BY date ASC";
+
+        double balance = 0;
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(balanceSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+            
+            // only grab first one, if exists
+            while (rs.next()) {
+                balance = rs.getDouble("balance");
+
+                break;
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return balance;
+    }
+
+    // Final balance calculated by getting daily closing balance from latest day in db
+    public double getFinalMonthlyBalance(int taxid) {
+        String balanceSql = "SELECT balance \n"
+        + "FROM DailyBalance "
+        + "WHERE taxid = ?"
+        + "ORDER BY date DESC";
+
+        double balance = 0;
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(balanceSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+            
+            // only grab first one, if exists
+            while (rs.next()) {
+                balance = rs.getDouble("balance");
+                break;
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return balance;
+    }
+
+    // returns number of stock trades
+    // to calculate total commissions
+    public int countStockTrades(int taxid) {
+        String countSql = "SELECT COUNT(*) AS count \n"
+        + "FROM Transactions "
+        + "WHERE taxid = ? AND type = ? OR type = ?"
+        + "ORDER BY date DESC";
+
+        int count = 0;
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(countSql)) {
+            
+            pstmt.setInt(1,taxid);
+            pstmt.setString(2,"b");
+            pstmt.setString(3,"s");
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                count = rs.getInt("count");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return count;
+    }
 }

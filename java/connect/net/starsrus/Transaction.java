@@ -188,4 +188,18 @@ public class Transaction {
             System.out.println(e.getMessage());
         }
     }
+
+    public void deleteAllTransactions() {
+        String deletesql = "DELETE FROM Transactions";
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(deletesql)) {
+
+            pstmt.executeUpdate();
+            System.out.println("Deleted all transactions");
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

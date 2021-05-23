@@ -100,7 +100,6 @@ public class StockInfo extends JFrame{
         panel.add(stock_label);
         panel.add(stock_text);
         panel.add(submit);
-        panel.add(message);
 
         panel.add(scrollPane);
         

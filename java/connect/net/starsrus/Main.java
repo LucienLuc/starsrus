@@ -188,7 +188,7 @@ public class Main {
         String transactionsTable =  "CREATE TABLE IF NOT EXISTS Transactions (\n"
         + " date DATE NOT NULL,\n"
         + "	taxid int NOT NULL,\n"
-        + " type char NOT NULL, \n" // b/s/d/w
+        + " type char NOT NULL, \n" // b/s/d/w/i
         + " shares int, \n"
         + " aid char(3), \n"
         + " price real, \n"
