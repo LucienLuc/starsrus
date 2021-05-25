@@ -34,11 +34,4 @@ public class Stock {
         }
         return price;
     }
-
-    String getName(String aid) {
-        return "";
-    }
-    String getDOB(String aid) {
-        return "";
-    }
 }

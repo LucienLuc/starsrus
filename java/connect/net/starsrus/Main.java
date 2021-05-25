@@ -156,9 +156,6 @@ public class Main {
         + " FOREIGN KEY (aid) REFERENCES Actors"
         + ");";
 
-        // how to store daily closing prices?
-        // seperate table with daily closing prices
-        // (aid, date, closingprice)
         String actorTable = "CREATE TABLE IF NOT EXISTS Actors (\n"
         + "	aid char(3) PRIMARY KEY NOT NULL,\n"
         + " currprice real NOT NULL, \n"

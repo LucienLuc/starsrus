@@ -273,4 +273,28 @@ public class Customer {
         }
         return count;
     }
+
+    public double getEarnings(int taxid) {
+        String countSql = "SELECT SUM(earnings) AS earnings \n"
+        + "FROM Transactions "
+        + "WHERE taxid = ?";
+
+        double earnings = 0;
+    
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(countSql)) {
+            
+            pstmt.setInt(1,taxid);
+            ResultSet rs = pstmt.executeQuery();
+            
+            while (rs.next()) {
+                earnings = rs.getDouble("earnings");
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return earnings;
+    }
+
 }

@@ -160,7 +160,7 @@ public class StockAccount {
         String today = system.getToday();
         Transaction t = new Transaction();
         double format = transactionCost * -1;
-        t.storeStockTransaction(today, taxid, 'b', quantity, aid, price, format, 0); //earnings are 0
+        t.storeStockTransaction(today, taxid, 'b', quantity, aid, price, format, -20); //net earnings -20 becuase commission
 
         return true;
         

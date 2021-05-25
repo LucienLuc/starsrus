@@ -102,7 +102,7 @@ public class GenStmt extends JFrame{
 
                     double initial_bal = c.getInitialMonthlyBalance(taxid);
                     double final_bal = c.getFinalMonthlyBalance(taxid);
-                    double earnings = final_bal - initial_bal;
+                    double earnings = c.getEarnings(taxid);
                     double commissions_paid = c.countStockTrades(taxid) * 20;
 
                     initial_bal_label.setText("Inital Balance: $" + new DecimalFormat("#.00").format(initial_bal));
