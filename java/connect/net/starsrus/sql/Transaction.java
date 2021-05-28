@@ -197,12 +197,24 @@ public class Transaction {
     }
 
     public void deleteAllTransactions() {
-        String deletesql = "DELETE FROM Transactions";
+        String deletetranssql = "DELETE FROM Transactions";
         try (Connection conn = DriverManager.getConnection(Main.url);
-            PreparedStatement pstmt = conn.prepareStatement(deletesql)) {
+            PreparedStatement pstmt = conn.prepareStatement(deletetranssql)) {
 
             pstmt.executeUpdate();
             System.out.println("Deleted all transactions");
+
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        String deletebalsql = "DELETE FROM DailyBalance";
+        try (Connection conn = DriverManager.getConnection(Main.url);
+            PreparedStatement pstmt = conn.prepareStatement(deletebalsql)) {
+
+            pstmt.executeUpdate();
+            System.out.println("Deleted all DailyBalance");
 
             conn.close();
         } catch (SQLException e) {
